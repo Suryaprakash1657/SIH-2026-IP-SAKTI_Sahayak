@@ -236,7 +236,3 @@ Contributions are welcome under the standard GitHub workflow:
 5. Open a Pull Request.
 
 ---
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
