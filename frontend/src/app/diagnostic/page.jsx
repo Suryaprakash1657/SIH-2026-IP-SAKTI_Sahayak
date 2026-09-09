@@ -23,6 +23,7 @@ import {
   Award,
   Scroll,
   ChevronRight,
+  RotateCcw,
 } from "lucide-react";
 import { api } from "@/lib/api-client";
 import { useLanguageStore } from "@/lib/language-store";
@@ -345,11 +346,11 @@ export default function DiagnosticWizardPage() {
     { title: "Herbal Recipe", desc: "Select Botanicals" },
     { title: "Innovation Check", desc: "Classical vs Modern" },
     { title: "Sourcing Origin", desc: "Farm vs Forest" },
-    { title: "Verdict & Roadmap", desc: "Plain-English Report" },
+    { title: "Verdict & Roadmap", desc: "Statutory Report" },
   ];
 
   return (
-    <div className="container max-w-7xl py-8 px-4 sm:px-8 mx-auto space-y-8">
+    <div className="max-w-7xl py-8 px-4 sm:px-6 lg:px-8 mx-auto space-y-8 text-ink">
       {/* Video Explainer Modal */}
       <VideoExplainerModal
         isOpen={videoOpen}
@@ -357,656 +358,744 @@ export default function DiagnosticWizardPage() {
         topicKey="recipe_bar"
       />
 
-      {/* Header Banner */}
+      {/* ── 1. HEADER BANNER ── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#1e40af] uppercase tracking-wider mb-1.5">
-            <ShieldCheck className="h-4 w-4 text-[#2563eb]" />
-            {isInnovator ? "Jargon-Free Recipe Intake" : "Section 3(p) & 3(e) Diagnostic Engine"}
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-brass-700 uppercase tracking-wider mb-1.5">
+            <ShieldCheck className="h-4 w-4 text-brass-600" />
+            {isInnovator ? "Recipe Patentability Checker" : "Section 3(p) TK & Rule 158B Diagnostic Corridor"}
           </div>
-          <h1 className="text-3xl sm:text-4xl font-serif font-black tracking-tight text-[#0a1c16]">
+          <h1 className="text-2xl sm:text-4xl font-serif font-black tracking-tight text-forest-950">
             Formulation Patentability Checker
           </h1>
-          <p className="text-sm text-stone-600 mt-1 max-w-2xl font-sans">
+          <p className="text-xs sm:text-sm text-ink-soft mt-1 max-w-2xl font-sans">
             {isInnovator
-              ? "Discover in 4 simple questions whether your Ayurvedic recipe is an ancient public remedy or an innovative formulation eligible for patent protection."
-              : "Autonomously cross-reference 54 First Schedule texts, evaluate Section 3(p) traditional knowledge exclusions, and assess BDA 2024 ABS liability."}
+              ? "Answer 4 practical questions about your formulation. We'll cross-reference 54 ancient Ayurvedic texts and give you a plain-English roadmap."
+              : "5-step statutory intake verifying First Schedule textual identity, Section 3(p) Traditional Knowledge exclusions, Section 3(e) admixture bars, and BDA 2024 compliance."}
           </p>
         </div>
 
-        {/* Action Controls */}
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setVideoOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#eff6ff] border border-[#2563eb]/30 text-[#1e40af] hover:bg-[#dbeafe] transition-all shadow-xs"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-serif font-bold bg-surface-raised border border-brass-500/40 text-forest-900 hover:bg-surface transition-all shadow-xs cursor-pointer"
           >
-            <Play className="h-3.5 w-3.5 fill-[#2563eb] text-[#2563eb]" />
-            <span>Why Can't I Patent Classical Recipes? (2 min)</span>
+            <Play className="h-3.5 w-3.5 fill-brass-600 text-brass-600" />
+            <span>Watch 2-Min Explainer</span>
           </button>
-
           <PlainLanguageToggle compact />
         </div>
       </div>
 
-      {/* Quick Presets Picker */}
-      <div className="p-4 rounded-2xl parchment-card border border-[#d6ccb8] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <span className="text-xs font-serif font-bold text-[#0e2720] flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[#2563eb]" />
-          Benchmark Test Cases:
+      {/* ── 2. QUICK BENCHMARK PRESETS ── */}
+      <div className="p-4 rounded-2xl parchment-card border border-line shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <span className="text-xs font-serif font-bold text-forest-950 flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-brass-600" />
+          Benchmark Formulations:
         </span>
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((p, idx) => (
             <button
               key={idx}
               onClick={() => applyPreset(idx)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-serif font-bold transition-all cursor-pointer border ${
                 selectedPresetIndex === idx
-                  ? "bg-[#144d3c] text-white shadow-xs font-extrabold border border-[#2d7f63]"
-                  : "bg-[#ede5d4] text-stone-700 hover:bg-[#e2d8c3]"
+                  ? "bg-forest-900 text-surface-raised border-forest-700 shadow-xs"
+                  : "bg-surface text-ink-soft hover:text-ink hover:bg-surface-raised border-line"
               }`}
             >
-              {p.title.split(" ")[0]} ({p.innovationType.replace("_", " ")})
+              {p.title.split(" ")[0]} ({p.innovationType === "CLASSICAL_UNMODIFIED" ? "Classical" : "Proprietary"})
             </button>
           ))}
         </div>
       </div>
 
-      {/* Milestone Stepper Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-2">
-        {steps.map((step, idx) => {
-          const isActive = currentStep === idx;
-          const isDone = currentStep > idx;
-          return (
-            <button
-              key={idx}
-              onClick={() => {
-                if (idx <= currentStep || result) setCurrentStep(idx);
-              }}
-              className={`p-3.5 rounded-2xl border text-left transition-all ${
-                isActive
-                  ? "bg-[#144d3c] border-[#225e50] text-[#fbf8f0] shadow-md scale-102"
-                  : isDone
-                  ? "bg-[#edf6f2] border-[#2d7f63]/40 text-[#144d3c]"
-                  : "bg-[#f4efe2]/60 border-[#e0d6c1] text-stone-400 opacity-60"
-              }`}
-            >
-              <div className="flex items-center justify-between text-[10px] font-mono font-bold mb-1">
-                <span className={isActive ? "text-[#38bdf8]" : isDone ? "text-[#144d3c]" : "text-stone-400"}>
-                  STEP 0{idx + 1}
-                </span>
-                {isDone && <Check className="h-3.5 w-3.5 text-[#144d3c]" />}
-              </div>
-              <div className={`text-xs font-bold leading-tight truncate ${isActive ? "text-white font-serif" : "text-stone-800"}`}>
-                {step.title}
-              </div>
-              <div className={`text-[10px] truncate mt-0.5 ${isActive ? "text-stone-300" : "text-stone-500"}`}>
-                {step.desc}
-              </div>
-            </button>
-          );
-        })}
-      </div>
+      {/* ── 3. MILESTONE-DRIVEN PROGRESSION RAIL ── */}
+      <div className="parchment-card p-3 sm:p-4 border border-line shadow-card overflow-x-auto no-scrollbar">
+        <div className="flex items-center justify-between min-w-[620px] gap-2">
+          {steps.map((step, idx) => {
+            const isDone = idx < currentStep;
+            const isCurrent = idx === currentStep;
 
-      {/* Main Interactive Stepper Container */}
-      <div className="parchment-card p-6 sm:p-9 rounded-3xl border border-[#d6ccb8] shadow-luxury space-y-7">
-        {/* STEP 0: FORMULATION BASICS */}
-        {currentStep === 0 && (
-          <div className="space-y-6 animate-in fade-in-50 duration-200">
-            <div className="border-b border-[#e8dfcf] pb-4">
-              <h2 className="text-lg font-serif font-bold text-[#0e2720] flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-[#1b5a4b]" />
-                Step 1: What are you calling your formulation?
-              </h2>
-              <p className="text-xs text-stone-600 mt-1 font-sans">
-                Enter your commercial invention name and its targeted therapeutic application.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1.5 font-mono uppercase tracking-wider">
-                  Formulation Title / Commercial Name
-                </label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full text-sm bg-white border border-[#d6ccb8] rounded-xl px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#144d3c] shadow-xs"
-                  placeholder="e.g. Standardized Neuroprotective Brahmi-Ashwa Complex"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1.5 font-mono uppercase tracking-wider">
-                  Target Disease / Health Indication
-                </label>
-                <input
-                  type="text"
-                  value={indication}
-                  onChange={(e) => setIndication(e.target.value)}
-                  className="w-full text-sm bg-white border border-[#d6ccb8] rounded-xl px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#144d3c] shadow-xs"
-                  placeholder="e.g. Cognitive enhancement, Joint pain, Glucose regulation"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1.5 font-mono uppercase tracking-wider">
-                  Ayush Medical Tradition
-                </label>
-                <select
-                  value={system}
-                  onChange={(e) => setSystem(e.target.value)}
-                  className="w-full text-sm bg-white border border-[#d6ccb8] rounded-xl px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#144d3c] shadow-xs font-serif"
-                >
-                  <option value="Ayurveda">Ayurveda</option>
-                  <option value="Siddha">Siddha</option>
-                  <option value="Unani">Unani</option>
-                  <option value="Sowa-Rigpa">Sowa-Rigpa</option>
-                  <option value="Homoeopathy">Homoeopathy</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1.5 font-mono uppercase tracking-wider">
-                  Finished Dosage Form
-                </label>
-                <input
-                  type="text"
-                  value={dosageForm}
-                  onChange={(e) => setDosageForm(e.target.value)}
-                  className="w-full text-sm bg-white border border-[#d6ccb8] rounded-xl px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#144d3c] shadow-xs"
-                  placeholder="e.g. Coated Tablet, Nanoparticle Capsule, Asava/Arishta"
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end pt-5 border-t border-[#e8dfcf]">
-              <button
-                type="button"
-                onClick={() => setCurrentStep(1)}
-                className="flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm bg-[#144d3c] hover:bg-[#0c2f25] text-white transition-all shadow-md hover:scale-102"
-              >
-                <span>Continue to Herbal Recipe</span>
-                <ArrowRight className="h-4 w-4 text-sky-300" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 1: HERBAL RECIPE & QUICK CHIPS */}
-        {currentStep === 1 && (
-          <div className="space-y-6 animate-in fade-in-50 duration-200">
-            <div className="border-b border-[#e8dfcf] pb-4">
-              <h2 className="text-lg font-serif font-bold text-[#0e2720] flex items-center gap-2">
-                <Leaf className="h-5 w-5 text-[#1b5a4b]" />
-                Step 2: What herbs are in your formula?
-              </h2>
-              <p className="text-xs text-stone-600 mt-1 font-sans">
-                Click any of our verified botanical quick-add chips below, or manually type in your ingredients.
-              </p>
-            </div>
-
-            {/* Botanical Quick-Add Chips */}
-            <div className="space-y-2.5">
-              <span className="text-xs font-mono font-bold text-stone-700 uppercase tracking-wider block">
-                Popular Ayush Botanicals (1-Click Add):
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {QUICK_HERB_CHIPS.map((chip, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => handleQuickAddChip(chip)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#eef5f1] border border-[#2d7f63]/40 text-[#144d3c] hover:bg-[#d8ece1] transition-all hover:scale-103 shadow-xs"
-                  >
-                    <Plus className="h-3.5 w-3.5 text-[#1b5a4b]" />
-                    <span className="font-medium">{chip.common}</span>
-                    <span className="text-[10px] text-[#22705d] font-mono italic hidden sm:inline">
-                      ({chip.botanical})
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Ingredients List */}
-            <div className="space-y-3.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-serif font-bold text-[#0e2720]">
-                  Formulation Recipe ({ingredients.length} Herbs Added)
-                </span>
+            return (
+              <React.Fragment key={idx}>
                 <button
                   type="button"
-                  onClick={handleAddHerb}
-                  className="flex items-center gap-1 text-xs font-bold text-[#144d3c] hover:text-[#0b2b23] bg-[#eef5f1] px-3.5 py-1.5 rounded-xl border border-[#2d7f63]/30 transition-colors"
+                  onClick={() => idx <= currentStep && setCurrentStep(idx)}
+                  className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-all ${
+                    idx <= currentStep ? "cursor-pointer" : "cursor-not-allowed opacity-60"
+                  } ${
+                    isCurrent
+                      ? "bg-forest-900 text-surface-raised border border-forest-700 shadow-xs"
+                      : isDone
+                      ? "hover:bg-surface-raised text-forest-900"
+                      : "text-ink-muted"
+                  }`}
                 >
-                  <Plus className="h-3.5 w-3.5" /> Add Custom Herb
-                </button>
-              </div>
-
-              <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1">
-                {ingredients.map((ing, idx) => (
                   <div
-                    key={idx}
-                    className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-3 shadow-xs"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#144d3c] flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-[#1b5a4b]" />
-                        Herb #{idx + 1}: {ing.common_name || "New Herb"}
-                      </span>
-                      {ingredients.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveIngredient(idx)}
-                          className="text-stone-400 hover:text-rose-600 transition-colors p-1"
-                          title="Remove Herb"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-                      <div>
-                        <label className="text-[10px] text-stone-500 block mb-1 font-mono uppercase">
-                          Common / Local Name
-                        </label>
-                        <input
-                          value={ing.common_name}
-                          onChange={(e) => handleIngredientChange(idx, "common_name", e.target.value)}
-                          className="w-full bg-[#fbf9f4] border border-[#d6ccb8] rounded-xl px-3 py-2 text-stone-900"
-                          placeholder="e.g. Ashwagandha"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[10px] text-stone-500 block mb-1 font-mono uppercase">
-                          Botanical Latin Name
-                        </label>
-                        <input
-                          value={ing.botanical_name}
-                          onChange={(e) => handleIngredientChange(idx, "botanical_name", e.target.value)}
-                          className="w-full bg-[#fbf9f4] border border-[#d6ccb8] rounded-xl px-3 py-2 text-stone-900 font-mono italic"
-                          placeholder="e.g. Withania somnifera"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[10px] text-stone-500 block mb-1 font-mono uppercase">
-                          Part Used / Extract Standard
-                        </label>
-                        <input
-                          value={ing.part_used}
-                          onChange={(e) => handleIngredientChange(idx, "part_used", e.target.value)}
-                          className="w-full bg-[#fbf9f4] border border-[#d6ccb8] rounded-xl px-3 py-2 text-stone-900"
-                          placeholder="e.g. Root Extract (5%)"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[10px] text-stone-500 block mb-1 font-mono uppercase">
-                          Quantity / Dose
-                        </label>
-                        <input
-                          value={ing.percentage_or_quantity}
-                          onChange={(e) =>
-                            handleIngredientChange(idx, "percentage_or_quantity", e.target.value)
-                          }
-                          className="w-full bg-[#fbf9f4] border border-[#d6ccb8] rounded-xl px-3 py-2 text-stone-900"
-                          placeholder="e.g. 300 mg"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex justify-between pt-5 border-t border-[#e8dfcf]">
-              <button
-                type="button"
-                onClick={() => setCurrentStep(0)}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-stone-600 hover:text-stone-900 transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" /> Back
-              </button>
-              <button
-                type="button"
-                onClick={() => setCurrentStep(2)}
-                className="flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm bg-[#144d3c] hover:bg-[#0c2f25] text-white transition-all shadow-md hover:scale-102"
-              >
-                <span>Continue to Innovation Check</span>
-                <ArrowRight className="h-4 w-4 text-sky-300" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 2: INNOVATION & NOVELTY CHECK */}
-        {currentStep === 2 && (
-          <div className="space-y-6 animate-in fade-in-50 duration-200">
-            <div className="border-b border-[#e8dfcf] pb-4">
-              <h2 className="text-lg font-serif font-bold text-[#0e2720] flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-[#2563eb]" />
-                Step 3: Is this an ancient recipe or have you modified it?
-              </h2>
-              <p className="text-xs text-stone-600 mt-1 font-sans">
-                Indian patent law strictly bars ancient unmodified formulations (Section 3(p)). Select which modification applies to your product.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div
-                onClick={() => setInnovationType("CLASSICAL_UNMODIFIED")}
-                className={`p-6 rounded-3xl border cursor-pointer transition-all space-y-3.5 ${
-                  innovationType === "CLASSICAL_UNMODIFIED"
-                    ? "bg-[#fff5f5] border-rose-500 ring-2 ring-rose-300 shadow-md"
-                    : "bg-white border-[#ded5c2] hover:bg-[#faf7f0]"
-                }`}
-              >
-                <div className="h-11 w-11 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-800 font-bold text-xl shadow-xs">
-                  📜
-                </div>
-                <h4 className="text-sm font-serif font-bold text-stone-900">Ancient Classical Recipe</h4>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  Manufactured strictly as recorded in Charaka, Sushruta, or Sharangadhara Samhita (e.g. raw powders, classical decoctions).
-                </p>
-                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-rose-100 text-rose-900 inline-block border border-rose-300">
-                  Barred under Section 3(p)
-                </span>
-              </div>
-
-              <div
-                onClick={() => setInnovationType("STANDARDIZED_RATIO")}
-                className={`p-6 rounded-3xl border cursor-pointer transition-all space-y-3.5 ${
-                  innovationType === "STANDARDIZED_RATIO"
-                    ? "bg-[#edf6f2] border-[#22705d] ring-2 ring-[#22705d]/30 shadow-md"
-                    : "bg-white border-[#ded5c2] hover:bg-[#faf7f0]"
-                }`}
-              >
-                <div className="h-11 w-11 rounded-2xl bg-[#e0f0ea] flex items-center justify-center text-[#144d3c] font-bold text-xl shadow-xs">
-                  🧪
-                </div>
-                <h4 className="text-sm font-serif font-bold text-stone-900">Standardized Extract / Ratio</h4>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  Purified fractions with guaranteed active marker percentage (e.g. 95% Curcuminoids + 5% Withanolides) in non-obvious proportions.
-                </p>
-                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-[#d8eee3] text-[#144d3c] inline-block border border-[#2d7f63]/40">
-                  Patentable with Synergy
-                </span>
-              </div>
-
-              <div
-                onClick={() => setInnovationType("NOVEL_DELIVERY")}
-                className={`p-6 rounded-3xl border cursor-pointer transition-all space-y-3.5 ${
-                  innovationType === "NOVEL_DELIVERY"
-                    ? "bg-[#eff6ff] border-[#2563eb] ring-2 ring-[#2563eb]/30 shadow-md"
-                    : "bg-white border-[#ded5c2] hover:bg-[#faf7f0]"
-                }`}
-              >
-                <div className="h-11 w-11 rounded-2xl bg-[#dbeafe] flex items-center justify-center text-[#1e40af] font-bold text-xl shadow-xs">
-                  ⚡
-                </div>
-                <h4 className="text-sm font-serif font-bold text-stone-900">Modern Delivery / Nanotech</h4>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  Micronized phytosomes, effervescent tablets, sublingual spray, or targeted nanoparticles that dramatically boost bioavailability.
-                </p>
-                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-[#dbeafe] text-[#1e40af] inline-block border border-[#2563eb]/40">
-                  High Patent Potential
-                </span>
-              </div>
-            </div>
-
-            <div className="flex justify-between pt-5 border-t border-[#e8dfcf]">
-              <button
-                type="button"
-                onClick={() => setCurrentStep(1)}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-stone-600 hover:text-stone-900 transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" /> Back
-              </button>
-              <button
-                type="button"
-                onClick={() => setCurrentStep(3)}
-                className="flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm bg-[#144d3c] hover:bg-[#0c2f25] text-white transition-all shadow-md hover:scale-102"
-              >
-                <span>Continue to Sourcing Origin</span>
-                <ArrowRight className="h-4 w-4 text-sky-300" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 3: SOURCING ORIGIN */}
-        {currentStep === 3 && (
-          <div className="space-y-6 animate-in fade-in-50 duration-200">
-            <div className="border-b border-[#e8dfcf] pb-4">
-              <h2 className="text-lg font-serif font-bold text-[#0e2720] flex items-center gap-2">
-                <Sprout className="h-5 w-5 text-[#1b5a4b]" />
-                Step 4: Where do you source your botanical herbs?
-              </h2>
-              <p className="text-xs text-stone-600 mt-1 font-sans">
-                Under the Biological Diversity Act, sourcing location determines whether you owe statutory government royalties to tribal communities.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div
-                onClick={() => setSourcingOrigin("CULTIVATED")}
-                className={`p-6 rounded-3xl border cursor-pointer transition-all space-y-3.5 ${
-                  sourcingOrigin === "CULTIVATED"
-                    ? "bg-[#edf6f2] border-[#22705d] ring-2 ring-[#22705d]/30 shadow-md"
-                    : "bg-white border-[#ded5c2] hover:bg-[#faf7f0]"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="h-12 w-12 rounded-2xl bg-[#e0f0ea] flex items-center justify-center text-2xl shadow-xs">
-                    🚜
-                  </div>
-                  <span className="text-xs px-3 py-1 rounded-full bg-[#d8eee3] text-[#144d3c] font-black font-mono border border-[#2d7f63]/40">
-                    0.0% ABS (EXEMPT)
-                  </span>
-                </div>
-                <h4 className="text-base font-serif font-bold text-stone-900">
-                  Cultivated Flora (Verified Farms & Agriculture)
-                </h4>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  Herbs are grown by farmers on registered agricultural land. Under BDA 2024 amendments, certified cultivated plants are <strong>100% exempt from ABS fees</strong>.
-                </p>
-              </div>
-
-              <div
-                onClick={() => setSourcingOrigin("WILD_HARVEST")}
-                className={`p-6 rounded-3xl border cursor-pointer transition-all space-y-3.5 ${
-                  sourcingOrigin === "WILD_HARVEST"
-                    ? "bg-[#eff6ff] border-[#2563eb] ring-2 ring-[#2563eb]/30 shadow-md"
-                    : "bg-white border-[#ded5c2] hover:bg-[#faf7f0]"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="h-12 w-12 rounded-2xl bg-[#dbeafe] flex items-center justify-center text-2xl shadow-xs">
-                    🌲
-                  </div>
-                  <span className="text-xs px-3 py-1 rounded-full bg-[#dbeafe] text-[#1e40af] font-black font-mono border border-[#2563eb]/40">
-                    0.1% - 0.5% SBB Royalty
-                  </span>
-                </div>
-                <h4 className="text-base font-serif font-bold text-stone-900">
-                  Wild Harvested (Forests, Tribal Gatherers)
-                </h4>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  Raw herbs are procured from forest areas or wild tribal collectors. Requires prior intimation to the State Biodiversity Board and statutory benefit-sharing royalties.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-between pt-5 border-t border-[#e8dfcf]">
-              <button
-                type="button"
-                onClick={() => setCurrentStep(2)}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-stone-600 hover:text-stone-900 transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" /> Back
-              </button>
-              <button
-                type="button"
-                onClick={handleRunEvaluation}
-                disabled={loading}
-                className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-black text-sm bg-gradient-to-r from-[#123c33] via-[#1b5a4b] to-[#22705d] hover:from-[#1b5a4b] hover:to-[#123c33] text-[#f7f2e4] transition-all shadow-lg hover:scale-102 active:scale-98 border border-[#2d7f63]/50"
-              >
-                {loading ? (
-                  <>
-                    <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                    <span>Analyzing Formulation...</span>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4 text-sky-300" />
-                    <span>Generate Plain-English Legal Verdict</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 4: RESULTS DASHBOARD */}
-        {currentStep === 4 && result && (
-          <div className="space-y-7 animate-in fade-in-50 duration-300">
-            {/* Verdict Headline Card */}
-            <div className="p-7 rounded-3xl bg-gradient-to-br from-[#edf6f2] via-[#f7faf8] to-[#fcf5e6] border border-[#2d7f63]/40 shadow-sm space-y-3.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#144d3c] flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4 text-[#1b5a4b]" /> Statutory Verdict
-                </span>
-                <span className="text-xs px-3 py-1 rounded-full bg-white text-stone-800 font-mono font-bold border border-[#d6ccb8]">
-                  {result.classification_type}
-                </span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-serif font-black text-[#0a1c16]">
-                {result.primary_recommendation}
-              </h3>
-              <p className="text-xs sm:text-sm text-[#283d35] leading-relaxed font-sans">
-                {result.regulatory_framework}
-              </p>
-            </div>
-
-            {/* Classical Overlap Meter Component */}
-            {result.first_schedule_match && (
-              <ClassicalOverlapMeter
-                overlapScore={result.first_schedule_match.similarity_score}
-                textbookName={result.first_schedule_match.textbook_name}
-                classicalCitation={result.first_schedule_match.chapter_verse}
-                isVerbatim={result.first_schedule_match.is_verbatim_match}
-                overlappingHerbs={result.first_schedule_match.overlapping_ingredients}
-              />
-            )}
-
-            {/* Dual Plain-Language Analysis Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Section 3(p) */}
-              <div className="p-5 rounded-3xl bg-[#fbf9f4] border border-[#d6ccb8] space-y-3 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-serif font-bold text-[#0e2720] flex items-center gap-1.5">
-                    <BookOpen className="h-4 w-4 text-[#2563eb]" />
-                    {isInnovator ? "Ancient Recipe Rule" : "Patents Act Section 3(p)"}
-                  </span>
-                  <span
-                    className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full font-mono border ${
-                      result.section_3p.risk_level.includes("BARRED")
-                        ? "bg-rose-50 text-rose-800 border-rose-300"
-                        : "bg-emerald-50 text-emerald-800 border-emerald-300"
+                    className={`h-7 w-7 rounded-full flex items-center justify-center text-xs font-mono font-bold shrink-0 border ${
+                      isDone
+                        ? "bg-brass-600 text-surface-raised border-brass-500"
+                        : isCurrent
+                        ? "bg-forest-950 text-brass-400 border-brass-400 shadow-xs"
+                        : "bg-canvas-deep text-ink-muted border-line"
                     }`}
                   >
-                    {result.section_3p.risk_level}
+                    {isDone ? <Check className="h-3.5 w-3.5" /> : idx + 1}
+                  </div>
+                  <div>
+                    <span className="block text-xs font-serif font-bold leading-tight">
+                      {step.title}
+                    </span>
+                    <span className="text-[10px] font-mono text-ink-muted hidden sm:inline">
+                      {step.desc}
+                    </span>
+                  </div>
+                </button>
+
+                {idx < steps.length - 1 && (
+                  <div
+                    className={`flex-1 h-0.5 min-w-4 rounded-full ${
+                      idx < currentStep ? "bg-brass-500" : "bg-line"
+                    }`}
+                  />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── 4. 12-COLUMN WORKSPACE: CONSOLE (7) + DOCKET SUMMARY (5) ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column: Tactile Instrument Console */}
+        <div className="lg:col-span-8 space-y-6">
+          <div className="parchment-card p-6 sm:p-8 space-y-6 border border-line shadow-card">
+            {/* Step 0: Formulation Info */}
+            {currentStep === 0 && (
+              <div className="space-y-6 animate-civic-rise">
+                <div className="border-b border-line pb-4">
+                  <span className="text-[10px] font-mono font-bold text-brass-700 uppercase tracking-wider">
+                    Milestone 1 of 5
                   </span>
+                  <h3 className="text-xl font-serif font-bold text-forest-950 mt-1">
+                    Formulation Identity & Therapeutic Target
+                  </h3>
+                  <p className="text-xs text-ink-soft mt-0.5">
+                    Enter the commercial title and primary therapeutic purpose of your remedy.
+                  </p>
                 </div>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  {result.section_3p.summary}
-                </p>
-                <div className="p-3.5 rounded-xl bg-[#eff6ff] border border-[#bfdbfe] text-xs text-[#1e40af] font-sans">
-                  <strong>Advice:</strong> {result.section_3p.plain_advice}
+
+                <div className="space-y-4 text-xs font-sans">
+                  <div>
+                    <label className="font-serif font-bold text-forest-950 block mb-1.5">
+                      Formulation Name or Docket Title *
+                    </label>
+                    <input
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="e.g. Standardized Neuroprotective Ashwagandha-Brahmi Complex"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-surface-raised border border-line focus:border-brass-500 focus:outline-none text-xs text-ink shadow-xs"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="font-serif font-bold text-forest-950 block mb-1.5">
+                        Traditional Health System
+                      </label>
+                      <select
+                        value={system}
+                        onChange={(e) => setSystem(e.target.value)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-surface-raised border border-line focus:border-brass-500 focus:outline-none text-xs text-ink shadow-xs"
+                      >
+                        <option value="Ayurveda">Ayurveda</option>
+                        <option value="Siddha">Siddha</option>
+                        <option value="Unani">Unani</option>
+                        <option value="Sowa-Rigpa">Sowa-Rigpa</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="font-serif font-bold text-forest-950 block mb-1.5">
+                        Dosage Form / Delivery Matrix
+                      </label>
+                      <input
+                        type="text"
+                        value={dosageForm}
+                        onChange={(e) => setDosageForm(e.target.value)}
+                        placeholder="e.g. Coated Tablet, Oral Suspension, Churna"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-surface-raised border border-line focus:border-brass-500 focus:outline-none text-xs text-ink shadow-xs"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="font-serif font-bold text-forest-950 block mb-1.5">
+                      Target Therapeutic Indication
+                    </label>
+                    <input
+                      type="text"
+                      value={indication}
+                      onChange={(e) => setIndication(e.target.value)}
+                      placeholder="e.g. Memory enhancement, cognitive fatigue, neuroprotection"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-surface-raised border border-line focus:border-brass-500 focus:outline-none text-xs text-ink shadow-xs"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-4 border-t border-line">
+                  <button
+                    onClick={() => setCurrentStep(1)}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-serif font-bold text-xs bg-forest-900 hover:bg-forest-800 text-surface-raised border border-forest-700 shadow-xs cursor-pointer"
+                  >
+                    <span>Proceed to Herbal Recipe</span>
+                    <ArrowRight className="h-4 w-4 text-brass-400" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 1: Herbal Recipe */}
+            {currentStep === 1 && (
+              <div className="space-y-6 animate-civic-rise">
+                <div className="border-b border-line pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-brass-700 uppercase tracking-wider">
+                      Milestone 2 of 5
+                    </span>
+                    <h3 className="text-xl font-serif font-bold text-forest-950 mt-1">
+                      Botanical Ingredients & Proportions
+                    </h3>
+                    <p className="text-xs text-ink-soft mt-0.5">
+                      Specify the herbs, parts used, quantities, and whether they are farm-cultivated.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleAddHerb}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-serif font-bold bg-surface-raised border border-line hover:border-forest-700/50 text-forest-900 transition-colors shadow-xs cursor-pointer self-start sm:self-auto"
+                  >
+                    <Plus className="h-3.5 w-3.5 text-brass-600" />
+                    <span>Add Botanical</span>
+                  </button>
+                </div>
+
+                {/* Quick Add Chips */}
+                <div className="space-y-2">
+                  <span className="text-[11px] font-mono font-bold text-ink-muted uppercase tracking-wider block">
+                    Quick-Add Verified Ayush Botanicals:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {QUICK_HERB_CHIPS.map((chip, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleQuickAddChip(chip)}
+                        className="px-2.5 py-1 rounded-lg text-xs bg-surface hover:bg-surface-raised border border-line text-ink flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <Plus className="h-3 w-3 text-brass-600" />
+                        <span className="font-serif font-bold">{chip.common}</span>
+                        <span className="text-[10px] font-mono text-ink-muted italic hidden sm:inline">
+                          ({chip.botanical})
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Ingredient Rows */}
+                <div className="space-y-4">
+                  {ingredients.map((ing, idx) => (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-2xl bg-surface border border-line space-y-3 relative shadow-xs"
+                    >
+                      <div className="flex items-center justify-between pb-2 border-b border-line">
+                        <span className="text-xs font-serif font-bold text-forest-900 flex items-center gap-2">
+                          <Leaf className="h-3.5 w-3.5 text-moss-600" />
+                          Botanical Ingredient #{idx + 1}
+                        </span>
+                        {ingredients.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveIngredient(idx)}
+                            className="text-ink-muted hover:text-danger p-1 rounded-lg transition-colors cursor-pointer"
+                            title="Remove herb"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
+                        <div>
+                          <label className="text-[11px] font-semibold text-ink-muted block mb-1">
+                            Common Name
+                          </label>
+                          <input
+                            type="text"
+                            value={ing.common_name}
+                            onChange={(e) => handleIngredientChange(idx, "common_name", e.target.value)}
+                            placeholder="e.g. Ashwagandha"
+                            className="w-full px-3 py-2 rounded-xl bg-surface-raised border border-line text-xs focus:border-brass-500 focus:outline-none"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[11px] font-semibold text-ink-muted block mb-1">
+                            Botanical / Latin Name
+                          </label>
+                          <input
+                            type="text"
+                            value={ing.botanical_name}
+                            onChange={(e) => handleIngredientChange(idx, "botanical_name", e.target.value)}
+                            placeholder="e.g. Withania somnifera"
+                            className="w-full px-3 py-2 rounded-xl bg-surface-raised border border-line text-xs focus:border-brass-500 focus:outline-none font-serif italic"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[11px] font-semibold text-ink-muted block mb-1">
+                            Part Used & Standardization
+                          </label>
+                          <input
+                            type="text"
+                            value={ing.part_used}
+                            onChange={(e) => handleIngredientChange(idx, "part_used", e.target.value)}
+                            placeholder="e.g. Root Extract (5% Withanolides)"
+                            className="w-full px-3 py-2 rounded-xl bg-surface-raised border border-line text-xs focus:border-brass-500 focus:outline-none"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[11px] font-semibold text-ink-muted block mb-1">
+                            Dose / Percentage
+                          </label>
+                          <input
+                            type="text"
+                            value={ing.percentage_or_quantity}
+                            onChange={(e) => handleIngredientChange(idx, "percentage_or_quantity", e.target.value)}
+                            placeholder="e.g. 300 mg or 40%"
+                            className="w-full px-3 py-2 rounded-xl bg-surface-raised border border-line text-xs focus:border-brass-500 focus:outline-none font-mono"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-between pt-4 border-t border-line">
+                  <button
+                    onClick={() => setCurrentStep(0)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-serif text-xs border border-line hover:bg-surface text-ink cursor-pointer"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    <span>Back</span>
+                  </button>
+                  <button
+                    onClick={() => setCurrentStep(2)}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-serif font-bold text-xs bg-forest-900 hover:bg-forest-800 text-surface-raised border border-forest-700 shadow-xs cursor-pointer"
+                  >
+                    <span>Proceed to Innovation Check</span>
+                    <ArrowRight className="h-4 w-4 text-brass-400" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Innovation Check */}
+            {currentStep === 2 && (
+              <div className="space-y-6 animate-civic-rise">
+                <div className="border-b border-line pb-4">
+                  <span className="text-[10px] font-mono font-bold text-brass-700 uppercase tracking-wider">
+                    Milestone 3 of 5
+                  </span>
+                  <h3 className="text-xl font-serif font-bold text-forest-950 mt-1">
+                    Technical Novelty vs Ancient Heritage
+                  </h3>
+                  <p className="text-xs text-ink-soft mt-0.5">
+                    How does your preparation differ from classical recipes in the 54 First Schedule texts?
+                  </p>
+                </div>
+
+                <div className="space-y-3.5">
+                  <div
+                    onClick={() => setInnovationType("STANDARDIZED_RATIO")}
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                      innovationType === "STANDARDIZED_RATIO"
+                        ? "bg-surface-raised border-forest-800 shadow-card ring-2 ring-forest-700/20"
+                        : "bg-surface border-line hover:bg-surface-raised"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif font-bold text-sm text-forest-950">
+                        1. Specific Standardized Extract Ratio (Proprietary)
+                      </span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-900 border border-emerald-500/30 font-bold">
+                        Defensible
+                      </span>
+                    </div>
+                    <p className="text-xs text-ink-soft mt-1 leading-relaxed font-sans">
+                      We use standardized extracts (e.g. 5% Withanolides) combined at a specific mathematical ratio backed by laboratory synergy assays.
+                    </p>
+                  </div>
+
+                  <div
+                    onClick={() => setInnovationType("NOVEL_DELIVERY")}
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                      innovationType === "NOVEL_DELIVERY"
+                        ? "bg-surface-raised border-forest-800 shadow-card ring-2 ring-forest-700/20"
+                        : "bg-surface border-line hover:bg-surface-raised"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif font-bold text-sm text-forest-950">
+                        2. Novel Carrier or Delivery Format (Proprietary)
+                      </span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-900 border border-emerald-500/30 font-bold">
+                        Defensible
+                      </span>
+                    </div>
+                    <p className="text-xs text-ink-soft mt-1 leading-relaxed font-sans">
+                      Liposomal, nanoparticle, enteric-coated, or sustained-release delivery formats that significantly enhance botanical bioavailability.
+                    </p>
+                  </div>
+
+                  <div
+                    onClick={() => setInnovationType("CLASSICAL_UNMODIFIED")}
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                      innovationType === "CLASSICAL_UNMODIFIED"
+                        ? "bg-rose-50/60 border-rose-300 shadow-card ring-2 ring-rose-600/20"
+                        : "bg-surface border-line hover:bg-surface-raised"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif font-bold text-sm text-rose-950">
+                        3. Classical Recipe (Unmodified from Samhitas)
+                      </span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-100 text-rose-900 border border-rose-400 font-bold">
+                        Statutorily Barred
+                      </span>
+                    </div>
+                    <p className="text-xs text-rose-900/80 mt-1 leading-relaxed font-sans">
+                      Formulated strictly according to Charaka, Sushruta, or Sharangadhara Samhita. Ineligible for product patenting under Section 3(p).
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between pt-4 border-t border-line">
+                  <button
+                    onClick={() => setCurrentStep(1)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-serif text-xs border border-line hover:bg-surface text-ink cursor-pointer"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    <span>Back</span>
+                  </button>
+                  <button
+                    onClick={() => setCurrentStep(3)}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-serif font-bold text-xs bg-forest-900 hover:bg-forest-800 text-surface-raised border border-forest-700 shadow-xs cursor-pointer"
+                  >
+                    <span>Proceed to Sourcing Origin</span>
+                    <ArrowRight className="h-4 w-4 text-brass-400" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Sourcing Origin */}
+            {currentStep === 3 && (
+              <div className="space-y-6 animate-civic-rise">
+                <div className="border-b border-line pb-4">
+                  <span className="text-[10px] font-mono font-bold text-brass-700 uppercase tracking-wider">
+                    Milestone 4 of 5
+                  </span>
+                  <h3 className="text-xl font-serif font-bold text-forest-950 mt-1">
+                    Biological Sourcing & BDA Compliance
+                  </h3>
+                  <p className="text-xs text-ink-soft mt-0.5">
+                    Where are your botanical raw drugs procured from?
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div
+                    onClick={() => setSourcingOrigin("CULTIVATED")}
+                    className={`p-5 rounded-2xl border transition-all cursor-pointer space-y-2 ${
+                      sourcingOrigin === "CULTIVATED"
+                        ? "bg-surface-raised border-forest-800 shadow-card ring-2 ring-forest-700/20"
+                        : "bg-surface border-line hover:bg-surface-raised"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Sprout className="h-4 w-4 text-emerald-700" />
+                        <span className="font-serif font-bold text-sm text-forest-950">
+                          Certified Farm Cultivation
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono font-extrabold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-950 border border-emerald-500/30">
+                        0% Royalty Fee
+                      </span>
+                    </div>
+                    <p className="text-xs text-ink-soft leading-relaxed font-sans">
+                      Herbs are grown on agricultural land by farmers with verified cultivation certificates. Completely exempt from BDA Access & Benefit Sharing under Section 7.
+                    </p>
+                  </div>
+
+                  <div
+                    onClick={() => setSourcingOrigin("WILD_HARVEST")}
+                    className={`p-5 rounded-2xl border transition-all cursor-pointer space-y-2 ${
+                      sourcingOrigin === "WILD_HARVEST"
+                        ? "bg-surface-raised border-brass-600 shadow-card ring-2 ring-brass-500/20"
+                        : "bg-surface border-line hover:bg-surface-raised"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Leaf className="h-4 w-4 text-brass-700" />
+                        <span className="font-serif font-bold text-sm text-forest-950">
+                          Wild Forest Harvesting
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono font-extrabold px-2 py-0.5 rounded-full bg-brass-50 text-brass-900 border border-brass-500/30">
+                        SBB Intimation
+                      </span>
+                    </div>
+                    <p className="text-xs text-ink-soft leading-relaxed font-sans">
+                      Herbs are wild-harvested from forests or tribal lands. Requires prior intimation to State Biodiversity Board and 0.2% ABS turnover fee.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between pt-4 border-t border-line">
+                  <button
+                    onClick={() => setCurrentStep(2)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-serif text-xs border border-line hover:bg-surface text-ink cursor-pointer"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    <span>Back</span>
+                  </button>
+                  <button
+                    onClick={handleRunEvaluation}
+                    disabled={loading}
+                    className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-serif font-bold text-xs bg-forest-900 hover:bg-forest-800 text-surface-raised border border-forest-700 shadow-card cursor-pointer disabled:opacity-50"
+                  >
+                    {loading ? (
+                      <>
+                        <span className="animate-spin h-3.5 w-3.5 border-2 border-surface-raised border-t-transparent rounded-full" />
+                        <span>Evaluating Jurisprudence...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4 text-brass-400" />
+                        <span>Compute Full Statutory Verdict</span>
+                        <ArrowRight className="h-4 w-4 text-brass-400" />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 4: Final Verdict & Roadmap */}
+            {currentStep === 4 && result && (
+              <div className="space-y-6 animate-civic-rise">
+                <div className="border-b border-line pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-brass-700 uppercase tracking-wider">
+                      Milestone 5 of 5 • Final Verdict
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-forest-950 mt-1">
+                      Statutory Jurisprudence Report
+                    </h3>
+                    <p className="text-xs text-ink-soft mt-0.5">
+                      Ground truth evaluation against The Patents Act 1970 and BDA 2024.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentStep(0)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-serif text-ink-soft hover:text-ink border border-line hover:bg-surface transition-colors cursor-pointer self-start sm:self-auto"
+                  >
+                    <RotateCcw className="h-3.5 w-3.5 text-brass-600" />
+                    <span>Re-evaluate</span>
+                  </button>
+                </div>
+
+                {/* Classical Overlap Meter Component */}
+                <ClassicalOverlapMeter
+                  overlapScore={result.first_schedule_match?.similarity_score || 0.6}
+                  textbookName={result.first_schedule_match?.textbook_name || "Classical Scripture Index"}
+                  classicalCitation={result.first_schedule_match?.chapter_verse || "Adhyaya 1"}
+                  isVerbatim={result.first_schedule_match?.is_verbatim_match}
+                  isNovelRatio={innovationType !== "CLASSICAL_UNMODIFIED"}
+                  overlappingHerbs={result.first_schedule_match?.overlapping_ingredients || []}
+                />
+
+                {/* Section 3(e) Synergism Recommendation Card */}
+                <div className="p-5 rounded-2xl bg-surface border border-line space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-serif font-bold text-sm text-forest-950 flex items-center gap-2">
+                      <FlaskConical className="h-4 w-4 text-brass-600" />
+                      Section 3(e) Mere Admixture Strategy
+                    </span>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-forest-50 text-forest-900 border border-forest-600/30">
+                      {result.section_3e?.risk_level}
+                    </span>
+                  </div>
+                  <p className="text-xs text-ink-soft leading-relaxed font-sans">
+                    {result.section_3e?.summary}
+                  </p>
+                  <p className="text-xs font-serif italic text-forest-900 bg-surface-raised p-2.5 rounded-xl border border-line">
+                    Plain Guidance: {result.section_3e?.plain_advice}
+                  </p>
+                </div>
+
+                {/* BDA 2024 ABS Card */}
+                <div className="p-5 rounded-2xl bg-surface border border-line space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-serif font-bold text-sm text-forest-950 flex items-center gap-2">
+                      <Scale className="h-4 w-4 text-emerald-700" />
+                      Biological Diversity Act 2024 Sourcing Status
+                    </span>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-900 border border-emerald-600/30">
+                      {result.bda_2024?.estimated_abs_rate}
+                    </span>
+                  </div>
+                  <p className="text-xs text-ink-soft leading-relaxed font-sans">
+                    {result.bda_2024?.plain_summary}
+                  </p>
+                </div>
+
+                {/* Primary Recommendation Banner */}
+                <div className="p-5 rounded-2xl bg-forest-900 text-surface-raised border border-forest-700 shadow-card space-y-2">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-brass-400 block">
+                    Institutional Recommendation
+                  </span>
+                  <p className="text-sm font-serif font-bold leading-snug">
+                    {result.primary_recommendation}
+                  </p>
+                </div>
+
+                {/* Actionable Next Steps */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <Link
+                    href="/synergism"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-serif font-bold text-xs bg-brass-700 hover:bg-brass-600 text-surface-raised border border-brass-600 shadow-xs transition-colors"
+                  >
+                    <Zap className="h-3.5 w-3.5 text-saffron-300" />
+                    <span>Prove 1+1=3 in Herbal Booster</span>
+                  </Link>
+
+                  <Link
+                    href="/bda-abs"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-serif font-bold text-xs bg-surface border border-line hover:bg-surface-raised text-forest-900 transition-colors"
+                  >
+                    <Scale className="h-3.5 w-3.5 text-emerald-700" />
+                    <span>Map Sourcing & ABS Royalties</span>
+                  </Link>
+
+                  <Link
+                    href="/dossier"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-serif font-bold text-xs bg-surface border border-line hover:bg-surface-raised text-forest-900 transition-colors"
+                  >
+                    <FileCheck className="h-3.5 w-3.5 text-forest-700" />
+                    <span>Generate Ready-to-File Dossier</span>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column: Sticky Legal "Docket" Summary Panel */}
+        <div className="lg:col-span-4 sticky top-28 space-y-4">
+          <div className="console-dark p-6 rounded-2xl space-y-5 border border-brass-500/40">
+            <div className="flex items-center justify-between pb-3 border-b border-forest-800">
+              <div className="flex items-center gap-2">
+                <Scroll className="h-4 w-4 text-brass-400" />
+                <span className="font-serif font-bold text-sm text-white">
+                  Legal Docket Summary
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-brass-300 font-bold">
+                DKT-2026-AYUSH
+              </span>
+            </div>
+
+            <div className="space-y-3.5 text-xs font-sans">
+              <div>
+                <span className="text-[11px] font-mono uppercase text-brass-300 font-bold block">
+                  Formulation Title
+                </span>
+                <span className="font-serif font-bold text-white text-sm block mt-0.5">
+                  {title || "Untitled Formulation"}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-forest-800/80">
+                <div>
+                  <span className="text-[11px] font-mono uppercase text-brass-300 font-bold block">
+                    Health System
+                  </span>
+                  <span className="font-mono text-emerald-300 font-bold">{system}</span>
+                </div>
+                <div>
+                  <span className="text-[11px] font-mono uppercase text-brass-300 font-bold block">
+                    Delivery Form
+                  </span>
+                  <span className="font-mono text-white font-semibold">{dosageForm || "Unspecified"}</span>
                 </div>
               </div>
 
-              {/* Section 3(e) */}
-              <div className="p-5 rounded-3xl bg-[#fbf9f4] border border-[#d6ccb8] space-y-3 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-serif font-bold text-[#0e2720] flex items-center gap-1.5">
-                    <FlaskConical className="h-4 w-4 text-[#1b5a4b]" />
-                    {isInnovator ? "Herbal Booster Rule (1+1=3)" : "Patents Act Section 3(e)"}
-                  </span>
-                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full font-mono bg-amber-50 text-amber-900 border border-amber-300">
-                    {result.section_3e.risk_level}
-                  </span>
+              <div className="pt-2 border-t border-forest-800/80">
+                <span className="text-[11px] font-mono uppercase text-brass-300 font-bold block mb-1.5">
+                  Active Botanicals ({ingredients.length})
+                </span>
+                <div className="flex flex-wrap gap-1">
+                  {ingredients.map((ing, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-0.5 rounded text-[10px] font-mono bg-forest-950 text-brass-300 font-bold border border-forest-800"
+                    >
+                      {ing.common_name || `Herb ${i + 1}`}
+                    </span>
+                  ))}
                 </div>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  {result.section_3e.summary}
-                </p>
-                <div className="p-3.5 rounded-xl bg-[#edf6f2] border border-[#c4e3d5] text-xs text-[#144d3c] font-sans">
-                  <strong>Action:</strong> {result.section_3e.plain_advice}
-                </div>
+              </div>
+
+              <div className="pt-2 border-t border-forest-800/80 space-y-1">
+                <span className="text-[11px] font-mono uppercase text-brass-300 font-bold block">
+                  Innovation Type
+                </span>
+                <span className="text-xs font-bold text-white font-serif block">
+                  {innovationType === "CLASSICAL_UNMODIFIED"
+                    ? "Classical Formulation (Rule 158B I)"
+                    : "Proprietary Standardized Ratio (Rule 158B II)"}
+                </span>
+              </div>
+
+              <div className="pt-2 border-t border-forest-800/80 space-y-1">
+                <span className="text-[11px] font-mono uppercase text-brass-300 font-bold block">
+                  Sourcing Origin
+                </span>
+                <span className="text-xs font-bold text-emerald-300 font-serif block">
+                  {sourcingOrigin === "CULTIVATED"
+                    ? "Certified Farm (0% ABS Royalty)"
+                    : "Wild Forest Harvest (SBB Intimation)"}
+                </span>
               </div>
             </div>
 
-            {/* Sourcing & BDA 2024 Royalty Clearance */}
-            <div className="p-5 rounded-3xl bg-[#edf5f1] border border-[#2d7f63]/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="space-y-1">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#144d3c] flex items-center gap-1.5">
-                  <Sprout className="h-4 w-4 text-[#1b5a4b]" /> BDA 2024 Sourcing Clearance
-                </span>
-                <p className="text-xs text-stone-700 font-sans">
-                  {result.bda_2024.plain_summary}
-                </p>
-              </div>
-
-              <div className="text-right shrink-0">
-                <span className="text-[10px] text-stone-500 block uppercase font-mono">Applicable Royalty</span>
-                <span className="text-xl font-black font-mono text-[#144d3c]">
-                  {result.bda_2024.estimated_abs_rate}
-                </span>
-              </div>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-5 border-t border-[#e8dfcf]">
-              <button
-                type="button"
-                onClick={() => setCurrentStep(1)}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs text-stone-700 hover:text-stone-950"
-              >
-                <ArrowLeft className="h-4 w-4" /> Modify Recipe
-              </button>
-
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/synergism"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] hover:from-[#1d4ed8] hover:to-[#1e40af] text-white transition-all shadow-xs"
-                >
-                  <Zap className="h-4 w-4 text-sky-200" />
-                  Test in Herbal Booster (1+1=3)
-                </Link>
-
-                <Link
-                  href="/bda-abs"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#144d3c] hover:bg-[#0c2f25] text-white transition-all shadow-xs"
-                >
-                  <Scale className="h-4 w-4" />
-                  Farmer Royalty Calculator
-                </Link>
-
-                <Link
-                  href="/dossier"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#1b5a4b] hover:bg-[#123c33] text-white transition-all shadow-xs"
-                >
-                  <FileCheck className="h-4 w-4" />
-                  Generate Patent Dossier
-                </Link>
-              </div>
+            <div className="p-3 rounded-xl bg-forest-950 border border-forest-800 text-[11px] font-mono text-white/90 flex items-center justify-between">
+              <span>Intake Progress:</span>
+              <span className="font-bold text-brass-400">Step {currentStep + 1} of 5</span>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

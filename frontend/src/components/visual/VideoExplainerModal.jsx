@@ -96,187 +96,125 @@ export function VideoExplainerModal({ topicKey = "recipe_bar", isOpen, onClose }
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0a1c16]/70 backdrop-blur-md animate-in fade-in-50 duration-200">
-      <div className="relative w-full max-w-3xl bg-[#fbf9f4] border border-[#2563eb]/40 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
-        {/* Modal Top Bar with Prestige Heraldry */}
-        <div className="flex items-center justify-between px-6 py-3.5 border-b border-[#e5decb] bg-[#0c1f38] text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-950/80 backdrop-blur-md animate-civic-rise">
+      <div className="relative w-full max-w-3xl bg-surface-raised border border-brass-500/40 rounded-3xl overflow-hidden shadow-floating flex flex-col max-h-[92vh] text-ink">
+        {/* Modal Top Bar */}
+        <div className="flex items-center justify-between px-6 py-4 bg-forest-900 text-surface-raised border-b border-forest-800">
           <div className="flex items-center gap-2.5">
-            <span className="h-2 w-2 rounded-full bg-[#38bdf8] animate-pulse" />
-            <span className="text-xs font-mono uppercase tracking-wider text-[#38bdf8] font-bold">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-brass-300">
               {topic.category}
             </span>
-            <span className="text-slate-400">•</span>
-            <span className="text-xs text-slate-300 flex items-center gap-1 font-mono">
-              <Clock className="h-3 w-3 text-[#38bdf8]" /> {topic.duration}
+            <span className="text-forest-700">•</span>
+            <span className="text-xs font-mono text-ink-inverse/70 flex items-center gap-1">
+              <Clock className="h-3 w-3 text-brass-400" /> {topic.duration}
             </span>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-xl hover:bg-forest-800 text-ink-inverse/80 hover:text-surface-raised transition-colors cursor-pointer"
+            aria-label="Close modal"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Video Player & Visual Animation Frame */}
-        <div className="relative aspect-video w-full bg-gradient-to-br from-[#0c1f38] via-[#102d4f] to-[#071728] flex flex-col items-center justify-center overflow-hidden border-b border-[#2563eb]/30 group">
-          <div className="relative z-10 flex flex-col items-center text-center p-6 space-y-4 max-w-lg">
-            {topicKey === "recipe_bar" && (
-              <div className="flex items-center justify-center gap-4">
-                <div className="p-3.5 rounded-2xl bg-[#2563eb]/15 border border-[#2563eb]/40 text-blue-200 text-center shadow-md">
-                  <BookOpen className="h-7 w-7 mx-auto mb-1 text-[#60a5fa]" />
-                  <span className="text-[11px] font-bold block text-white">Classical Recipe</span>
-                  <span className="text-[9px] text-blue-300 font-mono">Public Heritage (3p)</span>
-                </div>
-                <div className="text-[#38bdf8] font-black text-xl animate-pulse">➔</div>
-                <div className="p-3.5 rounded-2xl bg-emerald-600/20 border border-emerald-400/40 text-emerald-200 text-center shadow-md">
-                  <Sparkles className="h-7 w-7 mx-auto mb-1 text-emerald-400" />
-                  <span className="text-[11px] font-bold block text-white">Novel Formulation</span>
-                  <span className="text-[9px] text-emerald-300 font-mono">Patent Eligible</span>
-                </div>
-              </div>
-            )}
-
-            {topicKey === "synergy_booster" && (
-              <div className="flex items-center justify-center gap-3">
-                <div className="px-3.5 py-2 rounded-xl bg-black/40 border border-white/20 text-xs font-mono text-stone-200">
-                  Herb A: 25%
-                </div>
-                <span className="text-[#38bdf8] font-bold text-base">+</span>
-                <div className="px-3.5 py-2 rounded-xl bg-black/40 border border-white/20 text-xs font-mono text-stone-200">
-                  Herb B: 25%
-                </div>
-                <span className="text-emerald-400 font-extrabold text-base">=</span>
-                <div className="px-4 py-2 rounded-xl bg-emerald-500/30 border border-emerald-400 text-xs font-mono text-emerald-300 font-black animate-pulse shadow-md">
-                  89% Supercharge (CI &lt; 0.9)
-                </div>
-              </div>
-            )}
-
-            {topicKey === "forest_rules" && (
-              <div className="flex items-center justify-center gap-4">
-                <div className="p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-center shadow-md">
-                  <span className="text-2xl">🌲</span>
-                  <span className="text-[10px] font-bold block text-rose-200">Wild Forest</span>
-                  <span className="text-[9px] text-rose-300 font-mono">0.2% SBB Fee</span>
-                </div>
-                <div className="text-[#38bdf8] font-bold text-xs font-mono">VS</div>
-                <div className="p-3.5 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-center shadow-md">
-                  <span className="text-2xl">🚜</span>
-                  <span className="text-[10px] font-bold block text-emerald-200">Certified Farm</span>
-                  <span className="text-[9px] text-emerald-300 font-mono font-bold">0.0% EXEMPT</span>
-                </div>
-              </div>
-            )}
-
-            <h3 className="text-lg sm:text-xl font-serif font-bold text-white leading-snug">
+        {/* Video Simulation Canvas */}
+        <div className="relative aspect-video w-full bg-forest-950 flex flex-col items-center justify-center overflow-hidden border-b border-line">
+          <div className="text-center space-y-3 z-10 px-6 max-w-lg">
+            <div className="inline-flex p-4 rounded-3xl bg-forest-900/80 border border-brass-500/30 text-brass-400 shadow-card">
+              <Sparkles className="h-8 w-8 text-brass-400" />
+            </div>
+            <h4 className="text-lg sm:text-xl font-serif font-bold text-surface-raised leading-snug">
               {topic.title}
-            </h3>
-
-            {/* Play/Pause Button with Sovereign Blue Glow */}
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="h-12 w-12 rounded-full bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] hover:from-[#3b82f6] hover:to-[#2563eb] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all border border-blue-300 cursor-pointer"
-            >
-              {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5 fill-white" />}
-            </button>
+            </h4>
+            <p className="text-xs text-ink-inverse/75 font-sans leading-relaxed">
+              {topic.summary}
+            </p>
           </div>
 
-          {/* Bottom Scrub Bar */}
-          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 flex flex-col space-y-2">
-            <div
-              className="w-full bg-white/20 h-1.5 rounded-full cursor-pointer relative overflow-hidden"
-              onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                setProgress(Math.round(pos * 100));
-              }}
+          {/* Video Controls Bar */}
+          <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-forest-950 via-forest-950/80 to-transparent flex items-center justify-between gap-3 text-surface-raised z-20">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="h-8 w-8 rounded-lg bg-brass-600 hover:bg-brass-500 text-forest-950 flex items-center justify-center transition-all cursor-pointer font-bold"
+                aria-label={isPlaying ? "Pause" : "Play"}
+              >
+                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
+              </button>
+              <button
+                onClick={() => setProgress(0)}
+                className="h-8 w-8 rounded-lg hover:bg-forest-800 text-ink-inverse/70 flex items-center justify-center transition-colors cursor-pointer"
+                title="Restart"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Scrubber Bar */}
+            <div className="flex-1 mx-2">
+              <div className="w-full bg-forest-800 h-2 rounded-full overflow-hidden border border-forest-700">
+                <div
+                  className="bg-brass-400 h-full rounded-full transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={() => setIsMuted(!isMuted)}
+              className="h-8 w-8 rounded-lg hover:bg-forest-800 text-ink-inverse/70 flex items-center justify-center transition-colors cursor-pointer"
             >
-              <div
-                className="bg-gradient-to-r from-[#38bdf8] to-emerald-400 h-full rounded-full transition-all duration-150"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-
-            <div className="flex items-center justify-between text-xs text-stone-300 pt-1">
-              <div className="flex items-center gap-3">
-                <button onClick={() => setIsPlaying(!isPlaying)} className="hover:text-white cursor-pointer">
-                  {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-white" />}
-                </button>
-                <button onClick={() => setProgress(0)} className="hover:text-white cursor-pointer">
-                  <RotateCcw className="h-4 w-4" />
-                </button>
-                <span className="font-mono text-[11px] text-[#38bdf8]">
-                  {Math.floor((progress / 100) * 140)}s / 140s
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <button onClick={() => setIsMuted(!isMuted)} className="hover:text-white cursor-pointer">
-                  {isMuted ? <VolumeX className="h-4 w-4 text-rose-400" /> : <Volume2 className="h-4 w-4" />}
-                </button>
-                <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#2563eb]/20 text-[#93c5fd] font-mono font-bold border border-[#2563eb]/40">
-                  Ayush Jurisprudence Masterclass
-                </span>
-              </div>
-            </div>
+              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+            </button>
           </div>
         </div>
 
-        {/* Video Notes Tabs with Parchment Card Styling */}
-        <div className="p-6 overflow-y-auto space-y-4 bg-[#fbf9f4]">
-          <div className="flex items-center gap-2 border-b border-[#e5decb] pb-2">
-            <button
-              onClick={() => setActiveTab("takeaways")}
-              className={`text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-                activeTab === "takeaways"
-                  ? "bg-[#144d3c] text-[#f7f2e4] shadow-xs font-black border border-[#225e50]"
-                  : "text-stone-600 hover:text-stone-900"
-              }`}
-            >
-              Key Legal Takeaways
-            </button>
-            <button
-              onClick={() => setActiveTab("transcript")}
-              className={`text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-                activeTab === "transcript"
-                  ? "bg-[#144d3c] text-[#f7f2e4] shadow-xs font-black border border-[#225e50]"
-                  : "text-stone-600 hover:text-stone-900"
-              }`}
-            >
-              Interactive Transcript
-            </button>
-          </div>
+        {/* Tab Controls */}
+        <div className="flex border-b border-line bg-surface px-6 pt-3 gap-4">
+          <button
+            onClick={() => setActiveTab("takeaways")}
+            className={`pb-2.5 text-xs font-serif font-bold transition-all border-b-2 cursor-pointer ${
+              activeTab === "takeaways"
+                ? "border-forest-900 text-forest-900"
+                : "border-transparent text-ink-muted hover:text-ink"
+            }`}
+          >
+            Key Takeaways
+          </button>
+          <button
+            onClick={() => setActiveTab("transcript")}
+            className={`pb-2.5 text-xs font-serif font-bold transition-all border-b-2 cursor-pointer ${
+              activeTab === "transcript"
+                ? "border-forest-900 text-forest-900"
+                : "border-transparent text-ink-muted hover:text-ink"
+            }`}
+          >
+            Plain-Language Script
+          </button>
+        </div>
 
+        {/* Scrollable Content Pane */}
+        <div className="p-6 overflow-y-auto space-y-4 max-h-64 font-sans text-xs leading-relaxed">
           {activeTab === "takeaways" && (
-            <div className="space-y-3">
-              <p className="text-xs text-stone-600 leading-relaxed font-sans">{topic.summary}</p>
-              <div className="space-y-2">
-                {topic.takeaways.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-start gap-2.5 p-3 rounded-xl bg-[#f4ede0] border border-[#e0d6c1] text-xs text-[#1f382f]"
-                  >
-                    <CheckCircle2 className="h-4 w-4 text-[#1b5a4b] shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ul className="space-y-2.5">
+              {topic.takeaways.map((item, i) => (
+                <li key={i} className="flex items-start gap-2.5 p-3 rounded-xl bg-surface border border-line">
+                  <CheckCircle2 className="h-4 w-4 text-forest-700 shrink-0 mt-0.5" />
+                  <span className="text-ink-soft">{item}</span>
+                </li>
+              ))}
+            </ul>
           )}
 
           {activeTab === "transcript" && (
-            <div className="space-y-2.5">
+            <div className="space-y-3 font-mono">
               {topic.transcript.map((line, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-3 p-3 rounded-xl bg-white border border-[#e5decb] text-xs"
-                >
-                  <span className="font-mono text-[10px] text-[#1e40af] font-bold shrink-0 mt-0.5 bg-[#eff6ff] px-2 py-0.5 rounded border border-[#2563eb]/30">
-                    {line.time}
-                  </span>
-                  <p className="text-stone-700 leading-relaxed font-sans">{line.text}</p>
+                <div key={idx} className="flex items-start gap-3 p-2.5 rounded-lg bg-surface border border-line">
+                  <span className="text-brass-700 font-bold shrink-0">{line.time}</span>
+                  <span className="text-ink-soft font-sans">{line.text}</span>
                 </div>
               ))}
             </div>

@@ -18,6 +18,7 @@ import {
   ChevronDown,
   ChevronUp,
   LayoutGrid,
+  BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PlainLanguageToggle } from "./PlainLanguageToggle";
@@ -32,6 +33,7 @@ const NAV_ITEMS = [
     badge: "Recipe Check",
     attorneyBadge: "Sec 3(p)",
     desc: "Test if ancient recipe or patent-eligible",
+    sectionRef: "§ 3(p) TK Bar",
   },
   {
     name: "Herbal Booster",
@@ -41,6 +43,7 @@ const NAV_ITEMS = [
     badge: "1+1=3 Test",
     attorneyBadge: "CI Matrix",
     desc: "Prove combination potency exceeds raw herbs",
+    sectionRef: "§ 3(e) Mere Admixture",
   },
   {
     name: "Forest & BDA",
@@ -50,6 +53,7 @@ const NAV_ITEMS = [
     badge: "Farm vs Forest",
     attorneyBadge: "Sec 7 ABS",
     desc: "Sourcing origin, farmer royalty & SBB clearance",
+    sectionRef: "BDA 2024 § 7",
   },
   {
     name: "Statute Inspector",
@@ -59,6 +63,7 @@ const NAV_ITEMS = [
     badge: "Gazette RAG",
     attorneyBadge: "Gazette RAG",
     desc: "Side-by-side law vs plain English explanation",
+    sectionRef: "Gazette Citations",
   },
   {
     name: "Export Gateway",
@@ -68,6 +73,7 @@ const NAV_ITEMS = [
     badge: "US / EU / India",
     attorneyBadge: "PCT / 35 USC",
     desc: "Compare domestic rules vs US/EU patenting",
+    sectionRef: "Dual Jurisdiction",
   },
   {
     name: "Alternative IP",
@@ -77,6 +83,7 @@ const NAV_ITEMS = [
     badge: "Trade Secrets",
     attorneyBadge: "Pivots",
     desc: "Brand trademarks, trade secrets & GI protection",
+    sectionRef: "Class 5 / Secrets",
   },
   {
     name: "Dossier Hub",
@@ -86,6 +93,7 @@ const NAV_ITEMS = [
     badge: "Ready-to-File",
     attorneyBadge: "Forms",
     desc: "Generate complete application packet & PDF",
+    sectionRef: "IPO Form 1 & 2",
   },
 ];
 
@@ -96,87 +104,139 @@ export function Navbar() {
   const { mode } = useLanguageStore();
   const isInnovator = mode === "innovator";
 
+  const activeItem = NAV_ITEMS.find((item) => item.href === pathname);
+
   return (
-    <header className="sticky top-0 z-50 w-full glass-luxury border-b border-[#e5decb]/80 shadow-xs print:hidden">
-      {/* Primary Brand & Actions Header */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
-        {/* Brand Logo & Emblem */}
-        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#0b382d] via-[#145a49] to-[#07251e] text-[#f5ecd5] border border-[#2563eb]/50 shadow-md group-hover:scale-105 transition-all duration-300">
-            <ShieldCheck className="h-5 w-5 text-[#38bdf8]" />
-            <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500" />
+    <header className="sticky top-0 z-50 w-full print:hidden shadow-floating">
+      {/* ── 1. SLIM CIVIC-INSTITUTIONAL IDENTITY BAR ── */}
+      <div className="w-full bg-forest-950 text-surface border-b border-forest-800 px-3 sm:px-6 lg:px-8 py-1.5 text-[11px] font-mono">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
+            <span className="text-brass-300 font-bold tracking-wider uppercase text-[11px]">
+              National Ayush Jurisprudence Portal
+            </span>
+            <span className="text-forest-600 hidden md:inline font-bold">|</span>
+            <span className="text-white/90 hidden md:inline truncate font-medium">
+              Ministry of Ayush & CGPDTM Statutory Co-Pilot
             </span>
           </div>
-          <div className="flex flex-col justify-center">
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-serif font-black text-lg tracking-tight text-[#0f2d24] leading-none">
-                IP-SAKTI
-              </span>
-              <span className="font-sans font-bold text-base text-[#2563eb] tracking-tight leading-none">
-                Sahayak
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 mt-1">
-              <span className="text-[9px] font-mono font-bold tracking-widest text-stone-500 uppercase">
-                PORTAL
-              </span>
-              <span className="h-1 w-1 rounded-full bg-stone-300" />
-              <span className="text-[9px] font-semibold text-[#185547] bg-[#e1efe8] px-1.5 py-0.5 rounded border border-[#2d7f63]/30">
-                Ayush Jurisprudence AI
-              </span>
-            </div>
+
+          <div className="flex items-center gap-3 shrink-0 text-[11px]">
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-brass-300 font-semibold">
+              <BookOpen className="h-3.5 w-3.5 text-brass-400" />
+              <span>54 Classical Pharmacopeias Indexed</span>
+            </span>
+            <span className="hidden sm:inline text-forest-600 font-bold">•</span>
+            <span className="text-emerald-300 font-bold">BDA 2024 Active</span>
           </div>
-        </Link>
-
-        {/* Desktop Collapsible Navigation Bar Control */}
-        <div className="hidden sm:flex items-center gap-2">
-          <button
-            onClick={() => setIsNavCollapsed((prev) => !prev)}
-            className={cn(
-              "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all shadow-xs cursor-pointer",
-              !isNavCollapsed
-                ? "bg-[#103e33] text-white border-[#23584a] hover:bg-[#185546]"
-                : "bg-[#eee7d7] text-[#1c3a30] border-[#d6ccb8] hover:bg-[#e4dcce]"
-            )}
-            title={!isNavCollapsed ? "Collapse navigation tabs" : "Expand navigation tabs"}
-            aria-label="Toggle navigation tabs"
-          >
-            <LayoutGrid className={cn("h-3.5 w-3.5", !isNavCollapsed ? "text-[#38bdf8]" : "text-[#185547]")} />
-            <span>All Modules (7)</span>
-            {!isNavCollapsed ? (
-              <span className="flex items-center text-[11px] font-mono opacity-80">
-                <ChevronUp className="h-3.5 w-3.5 ml-0.5" />
-                <span className="hidden md:inline ml-0.5">Collapse</span>
-              </span>
-            ) : (
-              <span className="flex items-center text-[11px] font-mono opacity-80">
-                <ChevronDown className="h-3.5 w-3.5 ml-0.5" />
-                <span className="hidden md:inline ml-0.5">Expand</span>
-              </span>
-            )}
-          </button>
-        </div>
-
-        {/* Executive Action Controls */}
-        <div className="flex items-center gap-2.5 shrink-0">
-          <PlainLanguageToggle compact />
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden inline-flex items-center justify-center h-9 w-9 rounded-xl border border-[#d6ccb8] text-[#1c3a30] hover:text-[#0a201b] hover:bg-[#efe8d6] transition-colors"
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
         </div>
       </div>
 
-      {/* Dedicated Collapsible Navigation Bar - All 7 Modules Perfectly Visible */}
+      {/* ── 2. PRIMARY EXECUTIVE FOREST HEADER ── */}
+      <div className="w-full bg-forest-900 border-b border-forest-800 text-surface-raised px-3 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto h-16 flex items-center justify-between gap-3">
+          {/* Brand Logo & Emblem - Crisp border, no diffuse shadow halo */}
+          <Link href="/" className="flex items-center gap-3 shrink-0 group">
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-forest-950 text-brass-400 border border-brass-500/50 group-hover:border-brass-400 transition-all duration-200">
+              <ShieldCheck className="h-5 w-5 text-brass-400 group-hover:scale-105 transition-transform" />
+              <span className="absolute -top-1 -right-1 flex h-2 w-2 rounded-full bg-saffron-500 border border-forest-950" />
+            </div>
+
+            <div className="flex flex-col justify-center">
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-serif font-black text-xl tracking-tight text-white leading-none">
+                  IP-SAKTI
+                </span>
+                <span className="font-sans font-bold text-base text-brass-400 tracking-tight leading-none">
+                  Sahayak
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 mt-1">
+                <span className="text-[9px] font-mono font-bold tracking-widest text-brass-300 uppercase">
+                  SOVEREIGN CIVIC-TECH
+                </span>
+                <span className="h-1 w-1 rounded-full bg-forest-600" />
+                <span className="text-[9px] font-semibold text-emerald-300 bg-forest-950 px-1.5 py-0.2 rounded border border-forest-700">
+                  Ayush Jurisprudence AI
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Collapsible Module Bar Toggle (Desktop) */}
+          <div className="hidden lg:flex items-center gap-2">
+            <button
+              onClick={() => setIsNavCollapsed((prev) => !prev)}
+              className={cn(
+                "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer shadow-xs",
+                !isNavCollapsed
+                  ? "bg-forest-800 text-surface-raised border-forest-700 hover:bg-forest-700"
+                  : "bg-forest-950 text-brass-300 border-brass-600/30 hover:bg-forest-800"
+              )}
+              title={!isNavCollapsed ? "Collapse navigation corridor" : "Expand navigation corridor"}
+              aria-label="Toggle navigation corridor"
+            >
+              <LayoutGrid className={cn("h-3.5 w-3.5", !isNavCollapsed ? "text-brass-400" : "text-emerald-400")} />
+              <span>All Modules (7)</span>
+              {!isNavCollapsed ? (
+                <span className="flex items-center text-[10px] font-mono opacity-80">
+                  <ChevronUp className="h-3 w-3 ml-0.5" />
+                  <span className="ml-0.5">Fold</span>
+                </span>
+              ) : (
+                <span className="flex items-center text-[10px] font-mono opacity-80">
+                  <ChevronDown className="h-3 w-3 ml-0.5" />
+                  <span className="ml-0.5">Open</span>
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Perspective Toggle & Mobile Triggers */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <PlainLanguageToggle compact />
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden inline-flex items-center justify-center h-9 w-9 rounded-xl border border-forest-700 bg-forest-800 text-surface-raised hover:bg-forest-700 transition-colors"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 3. CONTEXTUAL BREADCRUMB STRIP ── */}
+      {activeItem && (
+        <div className="w-full bg-forest-950 border-b border-forest-800 px-3 sm:px-6 lg:px-8 py-1.5 hidden sm:block">
+          <div className="max-w-7xl mx-auto flex items-center justify-between text-[11px] font-mono text-white/90">
+            <div className="flex items-center gap-2">
+              <Link href="/" className="text-brass-300 hover:text-white font-medium transition-colors">
+                Registry Home
+              </Link>
+              <ChevronRight className="h-3 w-3 text-forest-500" />
+              <span className="text-white font-bold">
+                {isInnovator ? activeItem.name : activeItem.attorneyName}
+              </span>
+              <span className="text-forest-600 font-bold">•</span>
+              <span className="text-brass-300 font-medium text-[11px]">
+                {activeItem.sectionRef}
+              </span>
+            </div>
+
+            <span className="text-[11px] text-white/80 font-medium hidden md:inline">
+              {activeItem.desc}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* ── 4. DEDICATED COLLAPSIBLE NAVIGATION CORRIDOR ── */}
       {!isNavCollapsed && (
-        <div className="w-full border-t border-[#e2d9c4] bg-[#fbf9f4]/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 py-2 transition-all duration-300">
+        <div className="w-full border-b border-line bg-surface-dark px-3 sm:px-6 lg:px-8 py-2 transition-all duration-200">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <nav className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 w-full">
               {NAV_ITEMS.map((item) => {
@@ -189,40 +249,39 @@ export function Navbar() {
                     href={item.href}
                     title={item.desc}
                     className={cn(
-                      "relative inline-flex items-center gap-2 h-9 px-3 text-xs font-semibold rounded-xl transition-all whitespace-nowrap shrink-0",
+                      "relative inline-flex items-center gap-2 h-8 px-3 text-xs rounded-lg transition-all whitespace-nowrap shrink-0",
                       isActive
-                        ? "bg-[#103e33] text-[#f7f2e4] shadow-sm font-bold border border-[#23584a]"
-                        : "text-[#284037] hover:text-[#0b2b23] hover:bg-[#efe8d5]"
+                        ? "bg-forest-800 text-white font-bold border border-brass-400 shadow-xs"
+                        : "text-white/90 hover:text-white hover:bg-forest-800 font-semibold"
                     )}
                   >
-                    <Icon className={cn("h-3.5 w-3.5 shrink-0", isActive ? "text-[#38bdf8]" : "text-[#476b5e]")} />
+                    <Icon className={cn("h-3.5 w-3.5 shrink-0", isActive ? "text-brass-400" : "text-brass-400/90")} />
                     <span>{displayName}</span>
                     {isActive && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] ml-0.5 animate-pulse" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-brass-400 ml-0.5" />
                     )}
                   </Link>
                 );
               })}
             </nav>
 
-            {/* Quick Collapse Action */}
             <button
               onClick={() => setIsNavCollapsed(true)}
-              className="hidden xl:inline-flex items-center gap-1 text-[11px] font-semibold text-stone-500 hover:text-stone-800 px-2.5 py-1 rounded-lg hover:bg-[#efe8d5] transition-colors shrink-0 cursor-pointer"
-              title="Collapse tabs bar"
+              className="hidden xl:inline-flex items-center gap-1 text-[11px] font-bold text-brass-300 hover:text-white px-2 py-0.5 rounded hover:bg-forest-800 transition-colors shrink-0 cursor-pointer"
+              title="Collapse corridor"
             >
-              <ChevronUp className="h-3.5 w-3.5" />
-              <span>Hide</span>
+              <ChevronUp className="h-3 w-3" />
+              <span>Fold</span>
             </button>
           </div>
         </div>
       )}
 
-      {/* Mobile Navigation Drawer */}
+      {/* ── 5. MOBILE NAVIGATION DRAWER ── */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#ded5c2] bg-[#fbf9f4]/98 backdrop-blur-2xl px-4 py-5 space-y-4 shadow-2xl animate-in fade-in-50 slide-in-from-top-2">
-          <div className="flex justify-between items-center pb-3 border-b border-[#e5decb]">
-            <span className="text-xs font-semibold text-stone-600">Language Perspective:</span>
+        <div className="lg:hidden border-b border-line bg-surface-raised px-4 py-5 space-y-4 shadow-floating animate-civic-rise text-ink">
+          <div className="flex justify-between items-center pb-3 border-b border-line">
+            <span className="text-xs font-serif font-bold text-ink-soft">Perspective Lens:</span>
             <PlainLanguageToggle compact />
           </div>
 
@@ -238,22 +297,34 @@ export function Navbar() {
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "flex items-center justify-between px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all",
+                    "flex items-center justify-between px-3.5 py-2.5 text-sm font-medium rounded-xl transition-all border",
                     isActive
-                      ? "bg-[#103e33] text-white font-bold shadow-sm"
-                      : "text-stone-700 hover:text-stone-950 hover:bg-[#f1ebe0]"
+                      ? "bg-forest-900 text-surface-raised font-bold border-forest-700 shadow-card"
+                      : "bg-surface text-ink hover:bg-surface-raised border-line"
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={cn("p-1.5 rounded-lg", isActive ? "bg-[#1a5547] text-white" : "bg-[#e8e2d3] text-[#185547]")}>
+                    <div
+                      className={cn(
+                        "p-1.5 rounded-lg",
+                        isActive ? "bg-forest-800 text-brass-400" : "bg-canvas text-forest-700"
+                      )}
+                    >
                       <Icon className="h-4 w-4" />
                     </div>
                     <div>
-                      <span className="block text-sm font-semibold leading-tight">{displayName}</span>
-                      <span className="text-[10px] text-stone-500">{item.desc}</span>
+                      <span className="block text-sm font-serif font-bold leading-tight">{displayName}</span>
+                      <span className="text-[10px] text-ink-muted">{item.desc}</span>
                     </div>
                   </div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#ede5d4] text-stone-700 font-mono font-medium">
+                  <span
+                    className={cn(
+                      "text-[10px] px-2 py-0.5 rounded-full font-mono font-bold border",
+                      isActive
+                        ? "bg-forest-950 text-brass-400 border-brass-600/40"
+                        : "bg-surface-raised text-ink-muted border-line"
+                    )}
+                  >
                     {displayBadge}
                   </span>
                 </Link>
@@ -261,14 +332,14 @@ export function Navbar() {
             })}
           </div>
 
-          <div className="pt-2 border-t border-[#e5decb]">
+          <div className="pt-2 border-t border-line">
             <Link
               href="/diagnostic"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full text-xs font-bold py-3.5 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] hover:from-[#1d4ed8] hover:to-[#1e40af] text-white shadow-md transition-all"
+              className="flex items-center justify-center gap-2 w-full text-xs font-bold py-3 rounded-xl bg-forest-900 hover:bg-forest-800 text-surface-raised border border-brass-500/40 shadow-card transition-all"
             >
-              <Sparkles className="h-4 w-4 text-sky-200" />
-              Launch Formulation Patentability Checker
+              <Sparkles className="h-4 w-4 text-brass-400" />
+              <span>Launch Section 3(p) Patentability Checker</span>
               <ChevronRight className="h-4 w-4 ml-0.5" />
             </Link>
           </div>
@@ -277,4 +348,3 @@ export function Navbar() {
     </header>
   );
 }
-

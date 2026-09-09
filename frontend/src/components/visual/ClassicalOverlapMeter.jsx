@@ -2,6 +2,7 @@
 
 import React from "react";
 import { BookOpen, ShieldAlert, CheckCircle2, Scale, Scroll, Sparkles } from "lucide-react";
+import { MetricGauge } from "./MetricGauge";
 
 export function ClassicalOverlapMeter({
   overlapScore = 0.64,
@@ -15,94 +16,124 @@ export function ClassicalOverlapMeter({
   const isHighRisk = overlapPct > 80 || isVerbatim;
   const isModerate = overlapPct > 40 && overlapPct <= 80;
 
+  const severityBadge = isHighRisk
+    ? {
+        text: "Statutorily Barred (§ 3p)",
+        variant: "crimson",
+        classes: "bg-rose-50 text-rose-900 border-rose-400/50",
+      }
+    : isModerate
+    ? {
+        text: "Defensible Novel Ratio",
+        variant: "brass",
+        classes: "bg-brass-50 text-brass-900 border-brass-500/50",
+      }
+    : {
+        text: "Clear of § 3(p) Heritage Bar",
+        variant: "emerald",
+        classes: "bg-emerald-50 text-emerald-950 border-emerald-500/50",
+      };
+
   return (
-    <div className="parchment-card p-6 sm:p-7 rounded-3xl space-y-5 border border-[#d6ccb8] shadow-luxury">
-      {/* Header with Heraldic Icon */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#e8e0ce]">
-        <div className="flex items-center gap-3">
-          <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-[#eff6ff] to-[#dbeafe] border border-[#2563eb]/40 flex items-center justify-center text-[#1e40af] shadow-sm">
-            <Scroll className="h-5 w-5 text-[#2563eb]" />
+    <div className="parchment-card p-6 sm:p-7 space-y-6 border border-line shadow-card text-ink">
+      {/* ── HEADER WITH CITATION METADATA ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-line">
+        <div className="flex items-center gap-3.5">
+          <div className="h-12 w-12 rounded-xl bg-forest-900 border border-brass-500/40 flex items-center justify-center text-brass-400 shadow-card shrink-0">
+            <Scroll className="h-6 w-6 text-brass-400" />
           </div>
           <div>
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#1e40af] flex items-center gap-1.5">
-              <Sparkles className="h-3.5 w-3.5 text-[#2563eb]" /> Classical Pharmacopoeia Cross-Match
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-brass-700 flex items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-brass-600" /> 54 Classical Pharmacopeias Cross-Match
             </span>
-            <h3 className="text-base sm:text-lg font-serif font-bold text-[#0e2720] mt-0.5">
-              Traditional Knowledge Digital Library (TKDL) Meter
+            <h3 className="text-base sm:text-lg font-serif font-bold text-forest-950 mt-0.5">
+              Traditional Knowledge Digital Library (TKDL) Prior Art Density
             </h3>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <span
-            className={`text-xs px-3.5 py-1 rounded-full font-extrabold font-mono border ${
-              isHighRisk
-                ? "bg-rose-50 text-rose-800 border-rose-300"
-                : isModerate
-                ? "bg-blue-50 text-blue-900 border-blue-300"
-                : "bg-emerald-50 text-emerald-900 border-emerald-300"
-            }`}
+            className={`text-xs px-3 py-1 rounded-full font-extrabold font-mono border ${severityBadge.classes}`}
           >
-            {overlapPct}% Heritage Match
+            {overlapPct}% Classical Match
           </span>
         </div>
       </div>
 
-      {/* Segmented Precision Overlap Gauge */}
-      <div className="space-y-2">
-        <div className="flex justify-between text-xs font-semibold text-[#2d473e]">
-          <span className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-[#1b5a4b]" />
-            54 First Schedule Authority Index
-          </span>
-          <span className="font-mono text-[#0e2720] font-bold text-sm">{overlapPct}% Density</span>
-        </div>
-
-        {/* Outer gauge track */}
-        <div className="relative w-full bg-[#e8e0ce] rounded-full h-3.5 p-0.5 overflow-hidden border border-[#d3c8b2]">
-          <div
-            className={`h-full rounded-full transition-all duration-500 shadow-sm ${
-              isHighRisk
-                ? "bg-gradient-to-r from-amber-500 via-rose-500 to-rose-600"
-                : isModerate
-                ? "bg-gradient-to-r from-[#1b5a4b] via-[#2d7f63] to-[#2563eb]"
-                : "bg-gradient-to-r from-[#123c33] to-[#1b5a4b]"
-            }`}
-            style={{ width: `${Math.max(overlapPct, 5)}%` }}
+      {/* ── CALIBRATED CONFIDENCE GAUGE & DENSITY BANDS ── */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        <div className="md:col-span-4 flex justify-center">
+          <MetricGauge
+            value={overlapPct}
+            max={100}
+            unit="%"
+            label="TKDL Density"
+            sublabel="Scripture Match"
+            variant={severityBadge.variant}
+            statusLabel={severityBadge.text}
+            size="md"
           />
         </div>
 
-        {/* Gauge tick legends */}
-        <div className="flex justify-between text-[10px] font-mono text-[#5f736a] pt-0.5">
-          <span>0% Novel</span>
-          <span>40% Defensible</span>
-          <span>80% Barred (Sec 3p)</span>
-          <span>100% Verbatim</span>
+        <div className="md:col-span-8 space-y-3">
+          <div className="flex justify-between text-xs font-semibold text-ink-soft">
+            <span className="flex items-center gap-1.5 font-serif font-bold text-ink">
+              <span className="h-2 w-2 rounded-full bg-forest-800" />
+              Statutory Prior Art Meter
+            </span>
+            <span className="font-mono text-ink font-bold text-sm">{overlapPct}% Overlap Density</span>
+          </div>
+
+          {/* Segmented Outer Gauge Bar */}
+          <div className="relative w-full bg-canvas-deep rounded-full h-4 p-0.5 overflow-hidden border border-line-strong">
+            <div
+              className={`h-full rounded-full transition-all duration-500 shadow-xs ${
+                isHighRisk
+                  ? "bg-gradient-to-r from-saffron-500 via-warning to-danger"
+                  : isModerate
+                  ? "bg-gradient-to-r from-forest-800 via-moss-600 to-brass-500"
+                  : "bg-gradient-to-r from-forest-900 to-forest-700"
+              }`}
+              style={{ width: `${Math.max(overlapPct, 6)}%` }}
+            />
+          </div>
+
+          {/* Calibrated Threshold Ticks */}
+          <div className="flex justify-between text-[10px] font-mono text-ink-muted pt-0.5">
+            <span className="text-emerald-700 font-semibold">0% Novel Formulation</span>
+            <span className="text-brass-700 font-semibold">40% Defensible Ratio</span>
+            <span className="text-amber-800 font-semibold">75% Obvious Combination</span>
+            <span className="text-rose-800 font-semibold">100% Verbatim (§ 3p Bar)</span>
+          </div>
         </div>
       </div>
 
-      {/* Classical Citation Manuscript Box */}
-      <div className="p-4 rounded-2xl bg-gradient-to-br from-[#fbf8f2] to-[#f4ede0] border border-[#ded4bf] space-y-2.5 text-xs shadow-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-stone-700 pb-2 border-b border-[#e8dfcf]">
-          <span className="font-mono font-bold text-[11px] text-[#1e40af] uppercase tracking-wider flex items-center gap-1">
-            <BookOpen className="h-3.5 w-3.5 text-[#2563eb]" />
-            Indexed Classical Scripture:
+      {/* ── OFFICIAL MANUSCRIPT EXCERPT / LEGAL CITATION ── */}
+      <div className="p-4 rounded-2xl bg-surface border border-line space-y-3 text-xs shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-ink pb-2 border-b border-line">
+          <span className="font-mono font-bold text-[11px] text-brass-700 uppercase tracking-wider flex items-center gap-1">
+            <BookOpen className="h-3.5 w-3.5 text-brass-600" />
+            Statutory Textbook Citation:
           </span>
-          <span className="font-serif font-bold text-[#0e2720] text-sm">{textbookName}</span>
+          <span className="font-serif font-bold text-forest-950 text-sm">{textbookName}</span>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-stone-700 pb-2 border-b border-[#e8dfcf]">
-          <span className="font-mono text-[11px] text-[#556960] uppercase">Statutory Verse & Chapter:</span>
-          <span className="font-mono font-semibold text-[#18392f] bg-white/80 px-2 py-0.5 rounded border border-[#d6ccb8]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-ink pb-2 border-b border-line">
+          <span className="font-mono text-[11px] text-ink-muted uppercase">Statutory Verse & Chapter:</span>
+          <span className="font-mono font-semibold text-forest-900 bg-surface-raised px-2.5 py-0.5 rounded border border-line">
             {classicalCitation}
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-stone-700">
-          <span className="font-mono text-[11px] text-[#556960] uppercase">Overlapping Classical Herbs:</span>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-ink">
+          <span className="font-mono text-[11px] text-ink-muted uppercase">Overlapping Classical Herbs:</span>
           <div className="flex flex-wrap gap-1.5">
             {overlappingHerbs.map((h, i) => (
-              <span key={i} className="px-2 py-0.5 rounded-lg bg-[#e2efe8] text-[#144d3c] font-semibold text-[11px] border border-[#2d7f63]/30">
+              <span
+                key={i}
+                className="px-2.5 py-0.5 rounded-lg bg-surface-raised text-forest-900 font-semibold text-[11px] border border-line shadow-2xs"
+              >
                 {h}
               </span>
             ))}
@@ -110,23 +141,23 @@ export function ClassicalOverlapMeter({
         </div>
       </div>
 
-      {/* Plain Language Verdict Callout */}
+      {/* ── EXPLICIT STATUTORY VERDICT CALLOUT ── */}
       <div
         className={`p-4 rounded-2xl border text-xs leading-relaxed flex items-start gap-3.5 ${
           isHighRisk
-            ? "bg-[#fdf2f2] border-rose-200 text-rose-950"
+            ? "bg-rose-50/70 border-rose-300 text-rose-950"
             : isModerate
-            ? "bg-[#eff6ff] border-blue-200 text-blue-950"
-            : "bg-[#edf6f2] border-emerald-200 text-emerald-950"
+            ? "bg-brass-50/70 border-brass-300 text-amber-950"
+            : "bg-emerald-50/70 border-emerald-300 text-emerald-950"
         }`}
       >
-        <div className="p-1.5 rounded-xl shrink-0 mt-0.5 bg-white shadow-xs border">
+        <div className="p-1.5 rounded-xl shrink-0 mt-0.5 bg-surface-raised shadow-xs border border-line">
           {isHighRisk ? (
-            <ShieldAlert className="h-5 w-5 text-rose-600" />
+            <ShieldAlert className="h-5 w-5 text-danger" />
           ) : isModerate ? (
-            <Scale className="h-5 w-5 text-blue-600" />
+            <Scale className="h-5 w-5 text-brass-600" />
           ) : (
-            <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+            <CheckCircle2 className="h-5 w-5 text-success" />
           )}
         </div>
         <div>
@@ -134,15 +165,15 @@ export function ClassicalOverlapMeter({
             {isHighRisk
               ? "Section 3(p) Ancient Recipe Bar Applies"
               : isModerate
-              ? "Defensible with Standardized Ratio or Synergy"
-              : "High Novelty - Safe from Section 3(p)"}
+              ? "Defensible with Standardized Ratio or Synergism Proof"
+              : "High Novelty - Clear of Section 3(p) Exclusion"}
           </strong>
-          <p className="text-xs text-[#283832] leading-relaxed">
+          <p className="text-xs text-ink-soft leading-relaxed font-sans">
             {isHighRisk
-              ? "This recipe matches classical scriptures verbatim. Under Indian Patent law, ancient community remedies cannot be privately owned. Pivot to brand trademarks or trade secrets."
+              ? "This recipe matches classical scriptures verbatim. Under Indian Patent law, ancient community remedies cannot be privately owned. We advise pivoting to brand trademarks (Class 5) and process trade secrets."
               : isModerate
-              ? "Your herbs exist in ancient texts, but your standardized extraction or ratio gives you room to claim patent eligibility if you show novel biological synergy."
-              : "Your herbal combination is not recognized as a classical mix. You are clear of the traditional knowledge statutory exclusion!"}
+              ? "Your botanical ingredients exist in ancient texts, but your standardized extract ratio provides viable grounds to overcome Section 3(p). You must pair this with experimental synergism proof to defeat Section 3(e)."
+              : "Your herbal combination is not recognized as a classical mix in the 54 First Schedule texts. You are clear of the traditional knowledge statutory exclusion!"}
           </p>
         </div>
       </div>
