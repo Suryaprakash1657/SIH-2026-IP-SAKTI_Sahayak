@@ -20,26 +20,26 @@ export function PlainLanguageToggle({ className, compact = false }) {
             : "Switch to Innovator Mode (Plain English)"
         }
         className={cn(
-          "relative inline-flex items-center justify-center gap-1.5 h-9 px-3 rounded-xl text-xs font-bold transition-all border shadow-xs select-none hover:scale-102 active:scale-98",
+          "relative inline-flex items-center justify-center gap-1.5 h-9 px-3 rounded-xl text-xs font-bold transition-all border shadow-xs select-none cursor-pointer",
           isInnovator
-            ? "bg-[#edf6f2] border-[#256550]/40 text-[#144d3c] hover:bg-[#e0f0ea]"
-            : "bg-[#eff6ff] border-[#2563eb]/40 text-[#1e40af] hover:bg-[#dbeafe]",
+            ? "bg-surface-raised border-line text-forest-900 hover:bg-surface hover:border-forest-700/50"
+            : "bg-forest-950 border-forest-700 text-brass-300 hover:bg-forest-900",
           className
         )}
       >
         {isInnovator ? (
           <>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#1b5a4b] animate-pulse" />
-            <Sparkles className="h-3.5 w-3.5 text-[#1b5a4b] shrink-0" />
-            <span className="hidden sm:inline">Vaidya Mode</span>
-            <span className="sm:hidden">Plain</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
+            <Sparkles className="h-3.5 w-3.5 text-forest-700 shrink-0" />
+            <span className="hidden sm:inline font-serif font-bold">Vaidya Mode</span>
+            <span className="sm:hidden font-serif">Plain</span>
           </>
         ) : (
           <>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#2563eb] animate-pulse" />
-            <Scale className="h-3.5 w-3.5 text-[#2563eb] shrink-0" />
-            <span className="hidden sm:inline">Counsel Mode</span>
-            <span className="sm:hidden">Statute</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-brass-400 animate-pulse" />
+            <Scale className="h-3.5 w-3.5 text-brass-400 shrink-0" />
+            <span className="hidden sm:inline font-serif font-bold">Counsel Mode</span>
+            <span className="sm:hidden font-serif">Statute</span>
           </>
         )}
       </button>
@@ -49,7 +49,7 @@ export function PlainLanguageToggle({ className, compact = false }) {
   return (
     <div
       className={cn(
-        "inline-flex items-center p-1 rounded-2xl bg-[#efe8d8] border border-[#d6ccb8] shadow-inner",
+        "inline-flex items-center p-1 rounded-2xl bg-canvas-deep border border-line shadow-inner",
         className
       )}
     >
@@ -57,28 +57,28 @@ export function PlainLanguageToggle({ className, compact = false }) {
         type="button"
         onClick={() => setMode("innovator")}
         className={cn(
-          "flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all",
+          "flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer",
           isInnovator
-            ? "bg-[#123c33] text-[#f7f2e4] shadow-sm font-extrabold border border-[#225e50]"
-            : "text-stone-700 hover:text-stone-950 hover:bg-[#e6ddc9]/60"
+            ? "bg-forest-900 text-surface-raised shadow-xs font-extrabold border border-forest-700"
+            : "text-ink-soft hover:text-ink hover:bg-canvas/80"
         )}
       >
         <span className={cn("h-1.5 w-1.5 rounded-full", isInnovator ? "bg-emerald-400" : "bg-transparent")} />
-        <span>Vaidya (Plain)</span>
+        <span className="font-serif">Vaidya (Plain)</span>
       </button>
 
       <button
         type="button"
         onClick={() => setMode("attorney")}
         className={cn(
-          "flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all",
+          "flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer",
           !isInnovator
-            ? "bg-[#1e40af] text-white shadow-sm font-extrabold border border-[#3b82f6]"
-            : "text-stone-700 hover:text-stone-950 hover:bg-[#e6ddc9]/60"
+            ? "bg-forest-900 text-brass-300 shadow-xs font-extrabold border border-brass-600/40"
+            : "text-ink-soft hover:text-ink hover:bg-canvas/80"
         )}
       >
-        <span className={cn("h-1.5 w-1.5 rounded-full", !isInnovator ? "bg-blue-300" : "bg-transparent")} />
-        <span>Attorney (Legal)</span>
+        <span className={cn("h-1.5 w-1.5 rounded-full", !isInnovator ? "bg-brass-400" : "bg-transparent")} />
+        <span className="font-serif">Attorney (Statute)</span>
       </button>
     </div>
   );

@@ -32,17 +32,17 @@ export default function DualJurisdictionPage() {
   const [activeTimelineStep, setActiveTimelineStep] = useState(0);
 
   return (
-    <div className="container max-w-7xl py-8 px-4 sm:px-8 mx-auto space-y-8">
-      {/* Header */}
+    <div className="max-w-7xl py-8 px-4 sm:px-6 lg:px-8 mx-auto space-y-8 text-ink">
+      {/* ── 1. HEADER BANNER ── */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#1e40af] uppercase tracking-wider mb-1.5">
-            <Globe2 className="h-4 w-4 text-[#2563eb]" /> Cross-Border IPR & Export Engine
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-brass-700 uppercase tracking-wider mb-1.5">
+            <Globe2 className="h-4 w-4 text-brass-600" /> Cross-Border IPR & Export Engine
           </div>
-          <h1 className="text-3xl sm:text-4xl font-serif font-black tracking-tight text-[#0a1c16]">
+          <h1 className="text-2xl sm:text-4xl font-serif font-black tracking-tight text-forest-950">
             Strict Dual-Jurisdiction Switch
           </h1>
-          <p className="text-sm text-stone-600 mt-1 max-w-2xl font-sans">
+          <p className="text-xs sm:text-sm text-ink-soft mt-1 max-w-2xl font-sans">
             Segregate domestic Indian Patent Office (IPO) statutory hurdles from foreign export patentability (USPTO / EPO / PCT).
           </p>
         </div>
@@ -56,196 +56,166 @@ export default function DualJurisdictionPage() {
         </div>
       </div>
 
-      {/* Main Comparative Cards */}
+      {/* ── 2. MAIN COMPARATIVE BENTO CARDS ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Domestic India Card */}
         {(jurisdictionMode === "IN" || jurisdictionMode === "BOTH") && (
-          <div className="parchment-card p-6 sm:p-8 rounded-3xl border-t-4 border-t-[#144d3c] border border-[#d6ccb8] shadow-luxury space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-[#e8dfcf]">
+          <div className="parchment-card p-6 sm:p-8 rounded-3xl border-t-4 border-t-forest-900 border border-line shadow-card space-y-6">
+            <div className="flex items-center justify-between pb-4 border-b border-line">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-[#edf6f2] border border-[#2d7f63]/40 flex items-center justify-center text-[#144d3c]">
+                <div className="h-10 w-10 rounded-xl bg-forest-900 border border-forest-800 flex items-center justify-center text-brass-400">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-serif font-bold text-[#0a1c16]">
+                  <h3 className="text-base sm:text-lg font-serif font-bold text-forest-950">
                     Domestic Jurisdiction (India - IPO)
                   </h3>
-                  <span className="text-[10px] font-mono text-stone-500 uppercase">Patents Act 1970</span>
+                  <span className="text-[10px] font-mono text-ink-muted uppercase">Patents Act 1970</span>
                 </div>
               </div>
-              <span className="text-xs px-3 py-1 rounded-full bg-[#edf6f2] text-[#144d3c] font-mono font-bold border border-[#2d7f63]/30">
+              <span className="text-xs px-3 py-1 rounded-full bg-forest-50 text-forest-900 font-mono font-bold border border-forest-600/30">
                 HIGH THRESHOLD
               </span>
             </div>
 
-            <div className="space-y-3.5 text-xs">
-              <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-1.5 shadow-xs">
-                <span className="font-serif font-bold text-stone-900 block">Primary Statutory Hurdle</span>
-                <p className="text-stone-600 leading-relaxed font-sans">
-                  Section 3(p) (Traditional Knowledge bar) & Section 3(e) (Mere Admixture bar). Requires experimental proof of synergism (CI &lt; 0.9).
+            <div className="space-y-3.5 text-xs font-sans">
+              <div className="p-4 rounded-2xl bg-surface border border-line space-y-1.5 shadow-xs">
+                <span className="font-serif font-bold text-forest-950 block">Primary Statutory Hurdle</span>
+                <p className="text-ink-soft leading-relaxed">
+                  Section 3(p) (Traditional Knowledge bar) & Section 3(e) (Mere Admixture bar). Requires experimental proof of synergism (CI &lt; 0.90).
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-1.5 shadow-xs">
-                <span className="font-serif font-bold text-stone-900 block">Mandatory Biodiversity Compliance</span>
-                <p className="text-stone-600 leading-relaxed font-sans">
+              <div className="p-4 rounded-2xl bg-surface border border-line space-y-1.5 shadow-xs">
+                <span className="font-serif font-bold text-forest-950 block">Mandatory Biodiversity Compliance</span>
+                <p className="text-ink-soft leading-relaxed">
                   Section 6 NBA approval required prior to patent grant, plus Section 10(4)(d)(ii) mandatory origin disclosure.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-1.5 shadow-xs">
-                <span className="font-serif font-bold text-stone-900 block">Domestic Regulatory Marketing Path</span>
-                <p className="text-stone-600 leading-relaxed font-sans">
+              <div className="p-4 rounded-2xl bg-surface border border-line space-y-1.5 shadow-xs">
+                <span className="font-serif font-bold text-forest-950 block">Domestic Regulatory Marketing Path</span>
+                <p className="text-ink-soft leading-relaxed">
                   State Licensing Authority (SLA) AYUSH Manufacturing License under Rule 158B (Proprietary ASU Medicine).
                 </p>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-[#e8dfcf]">
-              <span className="text-xs font-serif font-bold text-stone-900 block mb-2.5">
-                Domestic Filing Protocol:
+            <div className="p-4 rounded-2xl bg-surface border border-line space-y-2">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-forest-900 block">
+                Recommended IPO Corridor
               </span>
-              <ul className="text-xs text-stone-700 space-y-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#1b5a4b] shrink-0" />
-                  <span>File Provisional Specification (Form 2) to lock Indian priority date.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#1b5a4b] shrink-0" />
-                  <span>Complete Chou-Talalay CI assays before filing Complete Specification.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#1b5a4b] shrink-0" />
-                  <span>File NBA Form III prior to examination / patent grant.</span>
-                </li>
-              </ul>
+              <p className="text-xs text-ink leading-relaxed">
+                Frame claims around standardized bioactive extraction ratios (e.g. 5:1 withanolides) rather than botanical names, supported by quantitative bioactivity curves.
+              </p>
             </div>
           </div>
         )}
 
-        {/* International Export Card */}
+        {/* Foreign Export Jurisdiction Card */}
         {(jurisdictionMode === "EXPORT" || jurisdictionMode === "BOTH") && (
-          <div className="parchment-card p-6 sm:p-8 rounded-3xl border-t-4 border-t-[#2563eb] border border-[#d6ccb8] shadow-luxury space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-[#e8dfcf]">
+          <div className="parchment-card p-6 sm:p-8 rounded-3xl border-t-4 border-t-brass-700 border border-line shadow-card space-y-6">
+            <div className="flex items-center justify-between pb-4 border-b border-line">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-[#eff6ff] border border-[#2563eb]/40 flex items-center justify-center text-[#1e40af]">
+                <div className="h-10 w-10 rounded-xl bg-brass-700 border border-brass-600 flex items-center justify-center text-surface-raised">
                   <Globe2 className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-serif font-bold text-[#0a1c16]">
-                    Export Markets (USPTO / EPO / PCT)
+                  <h3 className="text-base sm:text-lg font-serif font-bold text-forest-950">
+                    Foreign Export (USPTO / EPO / PCT)
                   </h3>
-                  <span className="text-[10px] font-mono text-stone-500 uppercase">35 U.S.C. 101/103 & EPO</span>
+                  <span className="text-[10px] font-mono text-ink-muted uppercase">35 U.S.C. 101 & EPC Art. 56</span>
                 </div>
               </div>
-              <span className="text-xs px-3 py-1 rounded-full bg-[#eff6ff] text-[#1e40af] font-mono font-bold border border-[#2563eb]/40">
-                FAVORABLE FEASIBILITY
+              <span className="text-xs px-3 py-1 rounded-full bg-brass-50 text-brass-900 font-mono font-bold border border-brass-500/40">
+                EXPORT VIABLE
               </span>
             </div>
 
-            <div className="space-y-3.5 text-xs">
-              <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-1.5 shadow-xs">
-                <span className="font-serif font-bold text-stone-900 block">Primary Examination Standard</span>
-                <p className="text-stone-600 leading-relaxed font-sans">
-                  35 U.S.C. § 101/103 (Utility & Non-Obviousness) / EPO Article 56 (Inventive Step). No Section 3(p) traditional knowledge exclusion exists abroad.
+            <div className="space-y-3.5 text-xs font-sans">
+              <div className="p-4 rounded-2xl bg-surface border border-line space-y-1.5 shadow-xs">
+                <span className="font-serif font-bold text-forest-950 block">Absence of Section 3(p) TK Bar</span>
+                <p className="text-ink-soft leading-relaxed">
+                  The USPTO and EPO do not have a statutory traditional knowledge bar. Formulations must satisfy standard novelty and non-obviousness tests.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-1.5 shadow-xs">
-                <span className="font-serif font-bold text-stone-900 block">International Prior Art Defense</span>
-                <p className="text-stone-600 leading-relaxed font-sans">
-                  USPTO and EPO examiners rely primarily on published journals; standardized novel extracts easily clear inventive step thresholds.
+              <div className="p-4 rounded-2xl bg-surface border border-line space-y-1.5 shadow-xs">
+                <span className="font-serif font-bold text-forest-950 block">Mandatory Section 39 Clearance</span>
+                <p className="text-ink-soft leading-relaxed">
+                  Indian residents must either file first in India or obtain a Foreign Filing License (FFL) under Section 39 before overseas submission.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-1.5 shadow-xs">
-                <span className="font-serif font-bold text-stone-900 block">Export Market Commercialization</span>
-                <p className="text-stone-600 leading-relaxed font-sans">
-                  US FDA Dietary Supplement (DSHEA 1994) or NDI (New Dietary Ingredient notification) rather than full synthetic drug approvals.
+              <div className="p-4 rounded-2xl bg-surface border border-line space-y-1.5 shadow-xs">
+                <span className="font-serif font-bold text-forest-950 block">FDA / EMA Regulatory Classification</span>
+                <p className="text-ink-soft leading-relaxed">
+                  Marketable as Dietary Supplements (DSHEA in US) or Traditional Herbal Medicinal Products (THMPD in EU).
                 </p>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-[#e8dfcf]">
-              <span className="text-xs font-serif font-bold text-stone-900 block mb-2.5">
-                International Export Protocol:
+            <div className="p-4 rounded-2xl bg-surface border border-line space-y-2">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-brass-700 block">
+                Recommended Overseas Strategy
               </span>
-              <ul className="text-xs text-stone-700 space-y-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#2563eb] shrink-0" />
-                  <span>File PCT application within 12 months of Indian priority date.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#2563eb] shrink-0" />
-                  <span>Obtain favorable WIPO Written Opinion on Novel Extract Claims.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#2563eb] shrink-0" />
-                  <span>Enter US & EU national phase by Month 30/31 with commercial claims.</span>
-                </li>
-              </ul>
+              <p className="text-xs text-ink leading-relaxed">
+                File a PCT application claiming Indian priority within 12 months, and claim synergistic composition of matter in the US where utility patent grants are significantly more accessible.
+              </p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Global Patent Filing Timeline */}
-      <div className="parchment-card p-6 sm:p-8 rounded-3xl space-y-6 border border-[#d6ccb8] shadow-luxury">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#e8dfcf]">
+      {/* ── 3. 30-MONTH PCT INTERNATIONAL FILING TIMELINE ── */}
+      <div className="parchment-card p-6 sm:p-8 space-y-6 border border-line shadow-card text-ink">
+        <div className="flex items-center justify-between pb-4 border-b border-line">
           <div>
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#1e40af] flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5 text-[#2563eb]" /> Paris Convention & PCT Roadmap
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-brass-700 flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5 text-brass-600" /> Paris Convention & WIPO Protocol
             </span>
-            <h3 className="text-base sm:text-lg font-serif font-bold text-[#0e2720] mt-0.5">
-              Global 31-Month Export Prosecution Timeline
+            <h3 className="text-base sm:text-lg font-serif font-bold text-forest-950 mt-0.5">
+              30-Month International PCT Roadmap
             </h3>
           </div>
-          <span className="text-xs font-mono text-stone-500 bg-white px-3 py-1 rounded-xl border border-[#d6ccb8]">
-            Click any milestone node to view filing details
+          <span className="text-xs font-mono text-ink-muted">
+            157 Member States
           </span>
         </div>
 
-        {/* Milestone Steps Buttons */}
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
-          {TIMELINE_STEPS.map((step, idx) => {
-            const isSelected = activeTimelineStep === idx;
-            return (
-              <button
-                key={idx}
-                onClick={() => setActiveTimelineStep(idx)}
-                className={`p-4 rounded-2xl border text-left transition-all ${
-                  isSelected
-                    ? "bg-[#144d3c] border-[#225e50] text-white shadow-md scale-102"
-                    : "bg-white border-[#ded5c2] text-stone-700 hover:bg-[#faf7f0]"
-                }`}
-              >
-                <span className={`text-[10px] font-mono font-bold uppercase block mb-1 ${isSelected ? "text-[#38bdf8]" : "text-[#1e40af]"}`}>
-                  {step.month}
-                </span>
-                <h4 className={`text-xs font-bold leading-tight ${isSelected ? "text-white font-serif" : "text-stone-900"}`}>
-                  {step.title}
-                </h4>
-              </button>
-            );
-          })}
+          {TIMELINE_STEPS.map((step, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setActiveTimelineStep(idx)}
+              className={`p-4 rounded-2xl text-left border transition-all cursor-pointer ${
+                activeTimelineStep === idx
+                  ? "bg-forest-900 text-surface-raised border-forest-700 shadow-card ring-2 ring-forest-700/20"
+                  : "bg-surface border-line hover:bg-surface-raised text-ink"
+              }`}
+            >
+              <span className={`text-[10px] font-mono font-bold block ${activeTimelineStep === idx ? "text-brass-400" : "text-brass-700"}`}>
+                {step.month}
+              </span>
+              <span className="font-serif font-bold text-xs block mt-1 leading-snug">
+                {step.title}
+              </span>
+            </button>
+          ))}
         </div>
 
-        {/* Active Timeline Milestone Detail Card */}
-        <div className="p-5 rounded-2xl bg-white border border-[#ded5c2] flex items-start gap-3 shadow-xs">
-          <div className="h-9 w-9 rounded-xl bg-[#edf6f2] border border-[#2d7f63]/30 flex items-center justify-center text-[#144d3c] shrink-0 mt-0.5">
-            <Clock className="h-5 w-5" />
-          </div>
-          <div>
-            <span className="text-[10px] font-mono uppercase font-bold text-[#1e40af] block">
-              {TIMELINE_STEPS[activeTimelineStep].month} Action Item:
+        {/* Selected Timeline Step Detail */}
+        <div className="p-5 rounded-2xl bg-surface border border-line space-y-2">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-brass-600" />
+            <span className="font-serif font-bold text-sm text-forest-950">
+              {TIMELINE_STEPS[activeTimelineStep].month}: {TIMELINE_STEPS[activeTimelineStep].title}
             </span>
-            <h4 className="text-sm font-serif font-bold text-stone-900 mt-0.5">
-              {TIMELINE_STEPS[activeTimelineStep].title}
-            </h4>
-            <p className="text-xs text-stone-600 leading-relaxed font-sans mt-1">
-              {TIMELINE_STEPS[activeTimelineStep].desc}
-            </p>
           </div>
+          <p className="text-xs text-ink-soft leading-relaxed font-sans">
+            {TIMELINE_STEPS[activeTimelineStep].desc}
+          </p>
         </div>
       </div>
     </div>

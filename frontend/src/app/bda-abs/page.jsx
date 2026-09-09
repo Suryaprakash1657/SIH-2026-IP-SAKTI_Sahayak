@@ -16,10 +16,12 @@ import {
   Award,
   Coins,
   Building2,
+  BookOpen,
 } from "lucide-react";
 import { useLanguageStore } from "@/lib/language-store";
 import { PlainLanguageToggle } from "@/components/layout/PlainLanguageToggle";
 import { VideoExplainerModal } from "@/components/visual/VideoExplainerModal";
+import { MetricGauge } from "@/components/visual/MetricGauge";
 import { formatCurrencyINR } from "@/lib/utils";
 
 const BDA_BENCHMARKS = [
@@ -86,7 +88,7 @@ export default function BDAABSPage() {
   };
 
   return (
-    <div className="container max-w-7xl py-8 px-4 sm:px-8 mx-auto space-y-8">
+    <div className="max-w-7xl py-8 px-4 sm:px-6 lg:px-8 mx-auto space-y-8 text-ink">
       {/* Video Explainer Modal */}
       <VideoExplainerModal
         isOpen={videoOpen}
@@ -94,39 +96,39 @@ export default function BDAABSPage() {
         topicKey="forest_rules"
       />
 
-      {/* Header */}
+      {/* ── 1. HEADER BANNER ── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#144d3c] uppercase tracking-wider mb-1.5">
-            <Scale className="h-4 w-4 text-[#1b5a4b]" />
-            {isInnovator ? "Forest Sourcing & Royalties" : "Biological Diversity Act (BDA 2024) Compliance"}
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-brass-700 uppercase tracking-wider mb-1.5">
+            <Scale className="h-4 w-4 text-brass-600" />
+            {isInnovator ? "Forest Sourcing & Royalties" : "Biological Diversity Act (BDA 2024 Amended) Compliance"}
           </div>
-          <h1 className="text-3xl sm:text-4xl font-serif font-black tracking-tight text-[#0a1c16]">
+          <h1 className="text-2xl sm:text-4xl font-serif font-black tracking-tight text-forest-950">
             Forest & Bio-Resource Rule Mapper
           </h1>
-          <p className="text-sm text-stone-600 mt-1 max-w-2xl font-sans">
+          <p className="text-xs sm:text-sm text-ink-soft mt-1 max-w-2xl font-sans">
             {isInnovator
               ? "Check whether your herbal sourcing triggers farmer royalty payments (ABS) to forest tribes, and verify how cultivated herbs grant 100% statutory exemptions."
-              : "Assess domestic Access & Benefit Sharing (ABS) liability under amended Section 7, determine NBA vs SBB jurisdiction, and calculate statutory royalty fees."}
+              : "Assess domestic Access & Benefit Sharing (ABS) liability under amended Section 7, determine NBA vs SBB jurisdiction, and compute statutory royalty liabilities."}
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setVideoOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#fbf8f2] border border-[#2d7f63]/40 text-[#144d3c] hover:bg-[#eaf3ee] transition-all shadow-xs"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-serif font-bold bg-surface-raised border border-brass-500/40 text-forest-900 hover:bg-surface transition-all shadow-xs cursor-pointer"
           >
-            <Play className="h-3.5 w-3.5 fill-[#1b5a4b] text-[#1b5a4b]" />
+            <Play className="h-3.5 w-3.5 fill-brass-600 text-brass-600" />
             <span>Forest vs Farm in 60s (Video)</span>
           </button>
           <PlainLanguageToggle compact />
         </div>
       </div>
 
-      {/* Quick Presets */}
-      <div className="p-4 rounded-2xl parchment-card border border-[#d6ccb8] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <span className="text-xs font-serif font-bold text-[#0e2720] flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[#2563eb]" />
+      {/* ── 2. PRESETS STRIP ── */}
+      <div className="p-4 rounded-2xl parchment-card border border-line shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <span className="text-xs font-serif font-bold text-forest-950 flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-brass-600" />
           Sourcing Profiles:
         </span>
         <div className="flex flex-wrap gap-2">
@@ -134,129 +136,145 @@ export default function BDAABSPage() {
             <button
               key={idx}
               onClick={() => applyBenchmark(idx)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-serif font-bold transition-all cursor-pointer border ${
                 selectedPreset === idx
-                  ? "bg-[#144d3c] text-white font-extrabold shadow-sm border border-[#2d7f63]"
-                  : "bg-[#eee7d7] text-stone-700 hover:bg-[#e4dcce]"
+                  ? "bg-forest-900 text-surface-raised border-forest-700 shadow-xs"
+                  : "bg-surface text-ink-soft hover:text-ink hover:bg-surface-raised border-line"
               }`}
             >
-              {b.name.split(" ")[0]} ({b.source === "CULTIVATED" ? "Farm Exempt" : "Wild Forest"})
+              {b.name.split(" ")[0]} ({b.isForeign ? "Foreign" : b.isVaidya ? "Vaidya" : "MSME"})
             </button>
           ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Sourcing Assessment Form */}
+      {/* ── 3. 12-COLUMN GRID: INSTRUMENT CONSOLE (6) + VERDICT (6) ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left 6 Columns: Dark Instrument Console */}
         <div className="lg:col-span-6 space-y-6">
-          <div className="parchment-card p-6 sm:p-8 rounded-3xl space-y-6 border border-[#d6ccb8] shadow-luxury">
-            <h2 className="text-base font-serif font-bold text-[#0e2720] flex items-center gap-2 border-b border-[#e8dfcf] pb-4">
-              <Sprout className="h-5 w-5 text-[#1b5a4b]" />
-              Sourcing & Legal Profile
-            </h2>
+          <div className="console-dark p-6 sm:p-7 space-y-6 border border-brass-500/30 shadow-card text-surface">
+            <div className="flex items-center justify-between pb-4 border-b border-forest-800">
+              <div className="flex items-center gap-2.5">
+                <Building2 className="h-4 w-4 text-brass-400" />
+                <h3 className="font-serif font-bold text-base text-surface-raised">
+                  Enterprise Sourcing Parameters
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono text-brass-300 font-bold">
+                BDA 2024 Formula
+              </span>
+            </div>
 
-            {/* Question 1: Sourcing Origin Toggle */}
-            <div className="space-y-2.5">
-              <label className="text-xs font-serif font-bold text-stone-800 block">
-                1. Where are your medicinal plants harvested?
+            {/* Sourcing Origin Selector */}
+            <div className="space-y-3">
+              <label className="text-[11px] font-serif font-bold text-surface-raised block">
+                Primary Botanical Sourcing Channel
               </label>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={() => setSourceType("CULTIVATED")}
-                  className={`p-5 rounded-2xl border text-left transition-all ${
+                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     sourceType === "CULTIVATED"
-                      ? "bg-[#edf6f2] border-[#22705d] ring-2 ring-[#22705d]/30 shadow-md"
-                      : "bg-white border-[#ded5c2] text-stone-600 hover:bg-[#faf7f0]"
+                      ? "bg-forest-900 border-emerald-500 text-white ring-1 ring-emerald-500"
+                      : "bg-forest-950 border-forest-800 text-white/90 hover:bg-forest-900/60"
                   }`}
                 >
-                  <span className="text-3xl block mb-1">🚜</span>
-                  <span className="text-xs font-serif font-bold text-stone-900 block">Cultivated Farms</span>
-                  <span className="text-[10px] text-[#144d3c] font-mono font-bold">0% ABS Fee (Exempt)</span>
+                  <div className="flex items-center gap-1.5">
+                    <Sprout className="h-3.5 w-3.5 text-emerald-400" />
+                    <span className="font-serif font-bold text-xs text-white">Farm Cultivated</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-emerald-300 font-bold block mt-0.5">
+                    0% Statutory ABS
+                  </span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setSourceType("WILD_FOREST")}
-                  className={`p-5 rounded-2xl border text-left transition-all ${
+                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                     sourceType === "WILD_FOREST"
-                      ? "bg-[#eff6ff] border-[#2563eb] ring-2 ring-[#2563eb]/30 shadow-md"
-                      : "bg-white border-[#ded5c2] text-stone-600 hover:bg-[#faf7f0]"
+                      ? "bg-forest-900 border-brass-500 text-white ring-1 ring-brass-500"
+                      : "bg-forest-950 border-forest-800 text-white/90 hover:bg-forest-900/60"
                   }`}
                 >
-                  <span className="text-3xl block mb-1">🌲</span>
-                  <span className="text-xs font-serif font-bold text-stone-900 block">Wild Forest / Tribal</span>
-                  <span className="text-[10px] text-[#1e40af] font-mono font-bold">0.2% - 0.5% SBB Fee</span>
+                  <div className="flex items-center gap-1.5">
+                    <Scale className="h-3.5 w-3.5 text-brass-400" />
+                    <span className="font-serif font-bold text-xs text-white">Wild Forest</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-brass-300 font-bold block mt-0.5">
+                    0.2% - 0.5% Fee
+                  </span>
                 </button>
               </div>
             </div>
 
-            {/* Question 2: Vaidya Practitioner Exemption */}
-            <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-3.5 shadow-xs">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isAyushVaidya}
-                  onChange={(e) => setIsAyushVaidya(e.target.checked)}
-                  className="h-4 w-4 rounded text-[#144d3c] focus:ring-[#144d3c] mt-0.5 accent-[#144d3c]"
-                />
-                <div>
-                  <span className="text-xs font-serif font-bold text-stone-900 block">
-                    Registered Traditional Vaidya / Hakim Exemption
-                  </span>
-                  <p className="text-[11px] text-stone-600 leading-normal font-sans mt-0.5">
-                    Under amended BDA 2024 Section 7 proviso, registered Ayush practitioners who prepare remedies for individual patients are 100% exempt from SBB intimation and royalties.
-                  </p>
-                </div>
-              </label>
-
+            {/* Toggles Strip */}
+            <div className="space-y-3 pt-2 border-t border-forest-800">
+              {/* Cultivation Certificate Checkbox */}
               {sourceType === "CULTIVATED" && (
-                <label className="flex items-start gap-3 cursor-pointer pt-3 border-t border-[#e8dfcf]">
+                <label className="flex items-start gap-3 p-3 rounded-xl bg-forest-950 border border-forest-800 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={hasCultivationCert}
                     onChange={(e) => setHasCultivationCert(e.target.checked)}
-                    className="h-4 w-4 rounded text-[#144d3c] focus:ring-[#144d3c] mt-0.5 accent-[#144d3c]"
+                    className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500"
                   />
-                  <div>
-                    <span className="text-xs font-serif font-bold text-stone-900 block">
-                      Has Valid Cultivation Certificate (RFO / Panchayat)
+                  <div className="text-xs">
+                    <span className="font-serif font-bold text-white block">
+                      Hold Certified Cultivated Flora Certificate (Farmer Invoice)
                     </span>
-                    <p className="text-[11px] text-stone-600 leading-normal font-sans mt-0.5">
-                      Proof that raw herbs were cultivated by registered farmers, satisfying statutory verification requirements.
-                    </p>
+                    <span className="text-xs text-white/90 font-sans block mt-0.5">
+                      Grants 100% exemption under amended Section 7 proviso of the BDA 2024.
+                    </span>
                   </div>
                 </label>
               )}
-            </div>
 
-            {/* Question 3: Foreign Ownership Check */}
-            <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] space-y-2 shadow-xs">
-              <label className="flex items-start gap-3 cursor-pointer">
+              {/* Registered Traditional Vaidya Toggle */}
+              <label className="flex items-start gap-3 p-3 rounded-xl bg-forest-950 border border-forest-800 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isAyushVaidya}
+                  onChange={(e) => setIsAyushVaidya(e.target.checked)}
+                  className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500"
+                />
+                <div className="text-xs">
+                  <span className="font-serif font-bold text-white block">
+                    Traditional Ayush Practitioner (Vaidya / Hakim)
+                  </span>
+                  <span className="text-xs text-white/90 font-sans block mt-0.5">
+                    Practitioners dispensing classical medicines directly to patients are exempt from SBB intimation.
+                  </span>
+                </div>
+              </label>
+
+              {/* Foreign Shareholding Toggle */}
+              <label className="flex items-start gap-3 p-3 rounded-xl bg-forest-950 border border-forest-800 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={isForeignShareholding}
                   onChange={(e) => setIsForeignShareholding(e.target.checked)}
-                  className="h-4 w-4 rounded text-[#1e40af] focus:ring-[#2563eb] mt-0.5 accent-[#2563eb]"
+                  className="mt-0.5 rounded text-brass-500 focus:ring-brass-500"
                 />
-                <div>
-                  <span className="text-xs font-serif font-bold text-stone-900 block">
-                    Foreign Investment / Non-Indian Controlled Entity (Section 3(2))
+                <div className="text-xs">
+                  <span className="font-serif font-bold text-white block">
+                    Foreign Shareholding / Non-Resident Controlled (Section 3(2))
                   </span>
-                  <p className="text-[11px] text-stone-600 leading-normal font-sans mt-0.5">
-                    Check if your company has foreign shareholding or directors. This transfers jurisdiction from the State Biodiversity Board to the National Biodiversity Authority (NBA Chennai).
-                  </p>
+                  <span className="text-xs text-white/90 font-sans block mt-0.5">
+                    Requires National Biodiversity Authority (NBA Chennai) prior approval and 0.5% ABS fee.
+                  </span>
                 </div>
               </label>
             </div>
 
-            {/* Question 4: Gross Turnover Slider */}
-            <div className="space-y-2.5 pt-2">
-              <div className="flex justify-between text-xs">
-                <span className="font-serif font-bold text-stone-800">
-                  Annual Ex-Factory Gross Sales of Formulation
+            {/* Annual Turnover Slider */}
+            <div className="space-y-3 pt-2 border-t border-forest-800">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-serif font-bold text-white">
+                  Annual Commercial Turnover
                 </span>
-                <span className="font-mono text-[#144d3c] font-black text-sm">
+                <span className="font-mono text-base font-bold text-brass-300">
                   {formatCurrencyINR(annualSales)}
                 </span>
               </div>
@@ -267,102 +285,162 @@ export default function BDAABSPage() {
                 step="500000"
                 value={annualSales}
                 onChange={(e) => setAnnualSales(Number(e.target.value))}
-                className="w-full cursor-pointer"
+                className="w-full"
               />
-              <div className="flex justify-between text-[10px] text-slateLegal-600 font-semibold font-mono">
-                <span>₹5 Lakhs</span>
+              <div className="flex justify-between text-[11px] font-mono text-brass-300 font-bold">
+                <span>₹5 Lakhs (Micro)</span>
                 <span>₹5 Crores</span>
-                <span>₹10 Crores</span>
+                <span>₹10 Crores (Large)</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Royalty Meter, Savings & Compliance Roadmap */}
+        {/* Right 6 Columns: Metric Gauges & Financial Verdict Card */}
         <div className="lg:col-span-6 space-y-6">
-          <div className="parchment-card p-6 sm:p-8 rounded-3xl space-y-5 border border-[#d6ccb8] shadow-luxury">
-            <div className="flex items-center justify-between border-b border-[#e8dfcf] pb-4">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#144d3c] flex items-center gap-1.5">
-                <Coins className="h-4 w-4 text-[#2563eb]" /> Benefit-Sharing Fee Calculator
-              </span>
+          <div className="parchment-card p-6 sm:p-7 space-y-6 border border-line shadow-card text-ink">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-line">
+              <div className="flex items-center gap-3">
+                <div className="h-11 w-11 rounded-xl bg-forest-900 border border-brass-500/40 flex items-center justify-center text-brass-400 shadow-card shrink-0">
+                  <Coins className="h-5 w-5 text-brass-400" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-brass-700">
+                    Statutory Benefit Sharing Audit
+                  </span>
+                  <h3 className="text-base sm:text-lg font-serif font-bold text-forest-950 mt-0.5">
+                    Statutory Royalty & Exemption Verdict
+                  </h3>
+                </div>
+              </div>
+
               <span
-                className={`text-xs px-3.5 py-1 rounded-full font-black font-mono border ${
+                className={`text-xs px-3 py-1.5 rounded-full font-mono font-extrabold border ${
                   isExempt
-                    ? "bg-[#e2efe8] text-[#144d3c] border-[#2d7f63]/40"
-                    : "bg-[#eff6ff] text-[#1e40af] border-[#2563eb]/40"
+                    ? "bg-emerald-50 text-emerald-950 border-emerald-500/40"
+                    : "bg-brass-50 text-brass-900 border-brass-500/40"
                 }`}
               >
-                {isExempt ? "0.0% RATE (EXEMPT)" : `${(absRate * 100).toFixed(1)}% APPLICABLE`}
+                {isExempt ? "100% Statutory Exemption" : `${(absRate * 100).toFixed(1)}% ABS Rate`}
               </span>
             </div>
 
-            {/* Big Currency Visual */}
-            <div className="p-6 rounded-2xl bg-white border border-[#ded5c2] flex items-center justify-between gap-4 shadow-xs">
-              <div>
-                <span className="text-[10px] text-stone-500 block uppercase tracking-wider font-mono font-bold">
-                  Statutory ABS Royalty Payable
+            {/* Dual Metric Gauges */}
+            <div className="grid grid-cols-2 gap-4 p-4 rounded-2xl bg-surface border border-line">
+              <MetricGauge
+                value={isExempt ? 0 : (absRate * 100).toFixed(1)}
+                max={1.0}
+                unit="%"
+                label="ABS Royalty Rate"
+                sublabel={isExempt ? "0.0% Exempt" : "Turnover Levy"}
+                variant={isExempt ? "emerald" : "brass"}
+                statusLabel={isExempt ? "Exempt" : "Payable"}
+                size="md"
+              />
+
+              <div className="flex flex-col items-center justify-center text-center p-2">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-ink-muted block">
+                  Annual Rupee Savings
                 </span>
-                <span className="text-2xl sm:text-3xl font-black font-mono text-[#0a1c16] mt-1 block">
+                <span className="font-mono text-2xl font-black text-emerald-700 tracking-tight block mt-1">
+                  {formatCurrencyINR(totalSavings)}
+                </span>
+                <span className="inline-block mt-2 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-950 border border-emerald-500/40">
+                  Retained in Enterprise
+                </span>
+              </div>
+            </div>
+
+            {/* Financial Verdict Breakdown */}
+            <div className="space-y-3 p-4 rounded-2xl bg-surface border border-line text-xs font-sans">
+              <div className="flex justify-between items-center pb-2 border-b border-line">
+                <span className="text-ink-soft">Potential Gross ABS Liability:</span>
+                <span className="font-mono font-bold text-ink">{formatCurrencyINR(potentialGrossFee)}</span>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b border-line">
+                <span className="text-ink-soft">Statutory Farm Exemption Credit:</span>
+                <span className="font-mono font-bold text-emerald-700">-{formatCurrencyINR(totalSavings)}</span>
+              </div>
+              <div className="flex justify-between items-center pt-1">
+                <span className="font-serif font-bold text-forest-950 text-sm">Net Payable Fee:</span>
+                <span className="font-mono font-black text-lg text-forest-950">
                   {formatCurrencyINR(actualPayableFee)}
                 </span>
               </div>
-              <div className="text-right">
-                <span className="text-[10px] text-stone-500 block uppercase tracking-wider font-mono font-bold">
-                  Total Saved via Exemption
-                </span>
-                <span className="text-xl sm:text-2xl font-black font-mono text-[#144d3c] mt-1 block">
-                  {formatCurrencyINR(totalSavings)}
-                </span>
-              </div>
             </div>
 
-            {/* Jurisdiction Assignment */}
-            <div className="p-4 rounded-2xl bg-[#edf6f2] border border-[#2d7f63]/30 space-y-1.5">
-              <span className="text-[11px] font-mono font-bold text-[#144d3c] uppercase flex items-center gap-1.5">
-                <Building2 className="h-3.5 w-3.5 text-[#1b5a4b]" />
-                Jurisdiction Authority:
-              </span>
-              <p className="text-xs font-serif font-bold text-[#0e2720]">
-                {isForeignShareholding
-                  ? "National Biodiversity Authority (NBA Chennai) — Form III Prior Approval Required"
-                  : "State Biodiversity Board (SBB) — Prior Intimation via Form I"}
-              </p>
-            </div>
-
-            {/* Step-by-Step Compliance Checklist */}
-            <div className="space-y-3 pt-2">
-              <span className="text-xs font-serif font-bold text-[#0e2720] block">
-                Statutory Compliance Roadmap:
-              </span>
-              <div className="space-y-2 text-xs">
-                <div className="flex items-start gap-2.5 p-3 rounded-xl bg-white border border-[#ded5c2]">
-                  <CheckCircle2 className="h-4 w-4 text-[#1b5a4b] shrink-0 mt-0.5" />
-                  <span>
-                    {isExempt
-                      ? "1. Archive farmer cultivation receipts and Range Forest Officer origin certificates."
-                      : "1. File Form I intimation with the respective State Biodiversity Board (SBB)."}
-                  </span>
+            {/* Detailed Statutory Route */}
+            <div
+              className={`p-4 rounded-2xl border text-xs leading-relaxed ${
+                isExempt
+                  ? "bg-emerald-50/60 border-emerald-300 text-emerald-950"
+                  : "bg-brass-50/60 border-brass-300 text-amber-950"
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <div className="p-1 rounded-lg bg-surface-raised border border-line shrink-0 mt-0.5">
+                  {isExempt ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-700" />
+                  ) : (
+                    <AlertTriangle className="h-4 w-4 text-brass-700" />
+                  )}
                 </div>
-                <div className="flex items-start gap-2.5 p-3 rounded-xl bg-white border border-[#ded5c2]">
-                  <CheckCircle2 className="h-4 w-4 text-[#1b5a4b] shrink-0 mt-0.5" />
-                  <span>
+                <div>
+                  <span className="font-serif font-bold text-sm block mb-0.5">
                     {isExempt
-                      ? "2. Claim statutory 0% ABS exemption under Section 7 proviso during patent filings."
-                      : "2. Deposit fair and equitable benefit sharing royalty into designated BMC accounts."}
+                      ? "Zero Royalty Liability (BDA 2024 Proviso Applied)"
+                      : isForeignShareholding
+                      ? "National Biodiversity Authority (NBA Form III Required)"
+                      : "State Biodiversity Board (SBB Form I Prior Intimation Required)"}
                   </span>
+                  <p className="font-sans text-ink-soft">
+                    {isExempt
+                      ? "Your botanical ingredients are certified farm-cultivated or dispensed under the Vaidya exemption. You owe 0% royalties. Maintain farmer purchase receipts in your AYUSH manufacturing file."
+                      : isForeignShareholding
+                      ? "Because the entity has foreign participation or non-resident control under Section 3(2), you must obtain prior approval from the NBA in Chennai before commercialization."
+                      : "Wild forest harvesting requires filing Form I prior intimation to the State Biodiversity Board and contributing 0.2% of turnover to the Local Biodiversity Fund."}
+                  </p>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div className="pt-2 flex justify-end">
-              <Link
-                href="/dossier"
-                className="text-xs font-bold px-5 py-3 rounded-xl bg-gradient-to-r from-[#144d3c] to-[#0c2f25] text-white transition-all flex items-center gap-2 shadow-md hover:scale-102"
-              >
-                <span>Export Compliance Certificate</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#38bdf8]" />
-              </Link>
-            </div>
+      {/* ── 4. STATUTORY CITATIONS & GAZETTE REFERENCE ── */}
+      <div className="parchment-card p-6 sm:p-7 space-y-4 border border-line shadow-card text-ink">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold text-brass-700 uppercase tracking-wider">
+          <BookOpen className="h-4 w-4 text-brass-600" />
+          Statutory Grounding & Act Citations
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-sans">
+          <div className="p-4 rounded-xl bg-surface border border-line space-y-1.5">
+            <span className="font-serif font-bold text-forest-950 block">
+              Section 7 Proviso (BDA 2024)
+            </span>
+            <p className="text-ink-soft leading-relaxed text-[11px]">
+              &ldquo;Provided that this requirement shall not apply to local people, vaids and hakims, nor to cultivated medicinal plants.&rdquo;
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-surface border border-line space-y-1.5">
+            <span className="font-serif font-bold text-forest-950 block">
+              Section 3(2) (Foreign Ownership)
+            </span>
+            <p className="text-ink-soft leading-relaxed text-[11px]">
+              Requires mandatory NBA Chennai approval prior to obtaining any bio-resource if foreign individuals or entities hold shares.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-surface border border-line space-y-1.5">
+            <span className="font-serif font-bold text-forest-950 block">
+              Section 40 (Normal Trade Flora)
+            </span>
+            <p className="text-ink-soft leading-relaxed text-[11px]">
+              Exempts normally traded agricultural commodities from ABS provisions when traded strictly as agricultural produce.
+            </p>
           </div>
         </div>
       </div>

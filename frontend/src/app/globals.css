@@ -1,226 +1,330 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 42 30% 97%; /* #fcfbf7 warm ivory linen */
-    --foreground: 165 35% 10%; /* #101c18 deep royal slate ink */
-    --card: 40 25% 99%; /* #fefdfa pure tactile bone-ivory */
-    --card-foreground: 165 35% 10%;
-    --popover: 40 25% 99%;
-    --popover-foreground: 165 35% 10%;
-    --primary: 163 70% 18%; /* #0e4e3f deep royal forest green */
-    --primary-foreground: 45 40% 98%;
-    --secondary: 221 83% 53%; /* #2563eb Sovereign Royal Cobalt */
-    --secondary-foreground: 0 0% 100%;
-    --muted: 40 20% 93%;
-    --muted-foreground: 160 12% 40%;
-    --accent: 160 35% 93%;
-    --accent-foreground: 163 70% 16%;
-    --destructive: 0 78% 54%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 40 18% 86%; /* subtle warm linen border */
-    --input: 40 18% 86%;
-    --ring: 163 70% 22%;
-    --radius: 1rem;
+    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+    --canvas: #f3ebdd;
+    --canvas-deep: #e8decc;
+    --surface: #f8f2e7;
+    --surface-raised: #ffffff;
+    --surface-dark: #0b2f25;
+    --surface-dark-raised: #123f32;
+
+    --forest-950: #071e18;
+    --forest-900: #0b2f25;
+    --forest-800: #123f32;
+    --forest-700: #1e5947;
+    --forest-600: #29745e;
+    --forest-500: #358d73;
+    --forest-400: #54aa91;
+    --forest-300: #85c5b3;
+    --forest-200: #b9dfd5;
+    --forest-100: #dbeef4;
+    --forest-50: #f0f7f4;
+
+    --moss-600: #65734a;
+    --moss-500: #7b885b;
+
+    --brass-700: #805927;
+    --brass-600: #a9793d;
+    --brass-500: #bd8b4a;
+    --brass-400: #c99b5d;
+    --brass-300: #d8b17b;
+    --brass-200: #e6c89e;
+    --brass-100: #f4e4c9;
+
+    --saffron-500: #d39736;
+    --saffron-400: #e1aa50;
+    --saffron-300: #ebbe6e;
+    --saffron-200: #f5d79b;
+    --saffron-100: #faedce;
+
+    --ink: #16221e;
+    --ink-soft: #2e3d36;
+    --ink-muted: #4b5750;
+    --ink-inverse: #ffffff;
+
+    --line: rgba(35, 56, 43, 0.22);
+    --line-strong: rgba(35, 56, 43, 0.38);
+    --line-dark: rgba(243, 235, 221, 0.25);
+
+    --success: #1f6b47;
+    --warning: #b36e20;
+    --danger: #9c3c2e;
+    --info: #2d5b64;
+
+    --shadow-card: 0 2px 10px rgba(31, 48, 37, 0.07), 0 1px 3px rgba(31, 48, 37, 0.04);
+    --shadow-floating: 0 4px 18px rgba(11, 47, 37, 0.12), 0 1px 4px rgba(11, 47, 37, 0.05);
+
+    --radius-sm: 0.45rem;
+    --radius-md: 0.8rem;
+    --radius-lg: 1.2rem;
+    --radius-xl: 1.7rem;
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Shadcn/Tailwind HSL compatibility variables */
+    --background: 38 42% 91%;
+    --foreground: 165 16% 17%;
+    --card: 38 45% 94%;
+    --card-foreground: 165 16% 17%;
+    --popover: 38 45% 94%;
+    --popover-foreground: 165 16% 17%;
+    --primary: 165 62% 11%;
+    --primary-foreground: 38 45% 95%;
+    --secondary: 35 48% 52%;
+    --secondary-foreground: 165 62% 8%;
+    --muted: 36 28% 86%;
+    --muted-foreground: 160 10% 38%;
+    --accent: 38 48% 88%;
+    --accent-foreground: 165 62% 11%;
+    --destructive: 8 46% 45%;
+    --destructive-foreground: 38 45% 97%;
+    --border: 156 23% 18% / 0.17;
+    --input: 156 23% 18% / 0.22;
+    --ring: 37 62% 52%;
+    --radius: 0.8rem;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground antialiased selection:bg-forest-800 selection:text-amber-100;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    background-color: #fbf9f4;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(18, 60, 51, 0.035) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.045) 0px, transparent 45%),
-      radial-gradient(at 50% 100%, rgba(34, 112, 93, 0.03) 0px, transparent 60%);
-    background-attachment: fixed;
+html {
+  background: var(--canvas);
+  color-scheme: light;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  color: var(--ink);
+  background-color: var(--canvas);
+  background-image: linear-gradient(180deg, #f5efe4 0%, #efe5d5 100%);
+  font-feature-settings: "liga", "kern";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: #ffffff;
+  background: var(--forest-800);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(189, 139, 74, 0.8);
+  outline-offset: 2px;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-/* Luxury Parchment Card with Tactile Hairline Border */
+/* ══════════════════════════════════════════════════════════════
+   TACTILE CIVIC-INSTITUTIONAL CARDS & SURFACES
+   ══════════════════════════════════════════════════════════════ */
 .parchment-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(253, 251, 246, 0.94) 100%);
-  border: 1px solid rgba(217, 206, 185, 0.7);
-  box-shadow: 
-    0 1px 2px 0 rgba(28, 42, 37, 0.03),
-    0 8px 24px -4px rgba(28, 42, 37, 0.05),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
 }
 
-.parchment-card-gold,
-.parchment-card-sovereign {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.95) 100%);
-  border: 1px solid rgba(37, 99, 235, 0.35);
-  box-shadow: 
-    0 1px 3px 0 rgba(37, 99, 235, 0.06),
-    0 10px 28px -4px rgba(37, 99, 235, 0.08),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+.parchment-card-brass {
+  background: var(--surface-raised);
+  border: 1px solid rgba(189, 139, 74, 0.45);
+  box-shadow: var(--shadow-card);
 }
 
 .parchment-card-forest {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 247, 244, 0.95) 100%);
-  border: 1px solid rgba(50, 140, 116, 0.4);
-  box-shadow: 
-    0 1px 3px 0 rgba(22, 72, 61, 0.06),
-    0 10px 28px -4px rgba(22, 72, 61, 0.08),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+  background: var(--surface-raised);
+  border: 1px solid rgba(30, 89, 71, 0.4);
+  box-shadow: var(--shadow-card);
 }
 
-/* Glassmorphic Luxury Header & Panels */
-.glass-luxury {
-  background: rgba(252, 250, 246, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(217, 206, 185, 0.65);
-  box-shadow: 0 4px 20px -2px rgba(18, 40, 34, 0.04);
+.console-dark {
+  background: #0b2f25;
+  border: 1px solid rgba(189, 139, 74, 0.35);
+  color: var(--surface);
+  box-shadow: 0 4px 18px rgba(7, 30, 24, 0.25);
+  border-radius: var(--radius-lg);
 }
 
-/* Sovereign Sapphire & Emerald Gradient Shimmer (Replacing Golden-Brass) */
-.gold-foil-text,
-.sovereign-gradient-text {
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #0d9488 80%, #059669 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.console-dark-raised {
+  background: #123f32;
+  border: 1px solid rgba(243, 235, 221, 0.25);
+  color: #ffffff;
 }
 
-.forest-gradient-text {
-  background: linear-gradient(135deg, #0f362e 0%, #1b5a4b 50%, #2f826d 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Authentic Gazette Double Hairline Rule */
+/* Gazette Double Hairline Rule */
 .gazette-double-border {
-  border-top: 3px double rgba(18, 60, 51, 0.35);
-  border-bottom: 1px solid rgba(18, 60, 51, 0.2);
+  border-top: 3px double var(--line-strong);
+  border-bottom: 1px solid var(--line);
 }
 
-/* Ambient Botanical Mesh with Sovereign Indigo Hue */
+.gazette-rule-brass {
+  border-top: 3px double rgba(189, 139, 74, 0.6);
+  border-bottom: 1px solid rgba(189, 139, 74, 0.3);
+}
+
+/* Editorial Botanical Mesh - Solid and clean, no blurry glowing halos */
 .botanical-mesh {
-  background-color: #fbf9f4;
-  background-image: 
-    radial-gradient(at 10% 10%, rgba(34, 112, 93, 0.08) 0px, transparent 45%),
-    radial-gradient(at 90% 10%, rgba(37, 99, 235, 0.08) 0px, transparent 45%),
-    radial-gradient(at 50% 50%, rgba(27, 90, 75, 0.04) 0px, transparent 65%),
-    radial-gradient(at 85% 85%, rgba(13, 74, 58, 0.06) 0px, transparent 50%);
+  background-color: var(--canvas);
 }
 
 .legal-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(28, 42, 37, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 42, 37, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to right, rgba(35, 56, 43, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(35, 56, 43, 0.05) 1px, transparent 1px);
 }
 
-/* Tactile Range Sliders for Scientific Laboratory Feel with Accessible Touch Targets */
+/* CSS Metric Gauge Custom Property & Ring */
+.metric-gauge-ring {
+  --gauge-angle: 0deg;
+  background: conic-gradient(
+    var(--gauge-color, var(--forest-700)) 0deg,
+    var(--gauge-color, var(--forest-700)) var(--gauge-angle),
+    rgba(35, 56, 43, 0.12) var(--gauge-angle),
+    rgba(35, 56, 43, 0.12) 360deg
+  );
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Range Sliders for Tactile Instrument Consoles */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 8px;
-  background: #e2d7c3;
+  background: #dacdb5;
   border-radius: 9999px;
   outline: none;
-  touch-action: pan-y; /* Crucial: allows vertical scrolling while horizontal dragging scrubs thumb without interruption */
+  touch-action: pan-y;
   cursor: pointer;
-  cursor: grab;
   margin: 8px 0;
   padding: 0;
   position: relative;
+  border: 1px solid rgba(35, 56, 43, 0.15);
 }
 
 input[type="range"]:active {
   cursor: grabbing;
 }
 
-/* Generous 26px x 26px Thumb with High-Contrast Halo for effortless scrubbing */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #123c33;
-  border: 3px solid #ffffff;
-  box-shadow: 0 2px 8px rgba(18, 60, 51, 0.4), 0 0 0 1.5px rgba(37, 99, 235, 0.5);
+  background: var(--forest-900);
+  border: 2px solid var(--brass-500);
+  box-shadow: 0 2px 8px rgba(7, 30, 24, 0.4), 0 0 0 2px rgba(211, 151, 54, 0.3);
   cursor: grab;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.12);
-  background: #09231e;
-  box-shadow: 0 3px 10px rgba(18, 60, 51, 0.5), 0 0 0 2.5px rgba(37, 99, 235, 0.7);
+  background: var(--forest-800);
+  box-shadow: 0 3px 12px rgba(7, 30, 24, 0.5), 0 0 0 3px rgba(211, 151, 54, 0.5);
 }
 
 input[type="range"]::-webkit-slider-thumb:active {
   transform: scale(1.22);
   cursor: grabbing;
-  box-shadow: 0 4px 14px rgba(18, 60, 51, 0.6), 0 0 0 4px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 4px 16px rgba(7, 30, 24, 0.6), 0 0 0 4px rgba(211, 151, 54, 0.5);
 }
 
-input[type="range"].slider-brass::-webkit-slider-thumb {
-  background: #2563eb;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4), 0 0 0 1.5px rgba(29, 78, 216, 0.3);
-}
-
-input[type="range"].slider-brass::-webkit-slider-thumb:hover {
-  background: #1d4ed8;
-}
-
-/* Firefox Range Input Support */
 input[type="range"]::-moz-range-track {
   height: 8px;
-  background: #e2d7c3;
+  background: #dacdb5;
   border-radius: 9999px;
+  border: 1px solid rgba(35, 56, 43, 0.15);
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #123c33;
-  border: 3px solid #ffffff;
-  box-shadow: 0 2px 8px rgba(18, 60, 51, 0.4), 0 0 0 1.5px rgba(37, 99, 235, 0.5);
+  background: var(--forest-900);
+  border: 2px solid var(--brass-500);
+  box-shadow: 0 2px 8px rgba(7, 30, 24, 0.4), 0 0 0 2px rgba(211, 151, 54, 0.3);
   cursor: grab;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-input[type="range"]::-moz-range-thumb:active {
-  transform: scale(1.22);
-  cursor: grabbing;
+/* Animations */
+@keyframes civicRise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Clean Parchment Scrollbar */
+@keyframes civicPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.animate-civic-rise {
+  animation: civicRise 0.4s var(--ease-out) forwards;
+}
+
+.animate-civic-pulse {
+  animation: civicPulse 2.5s ease-in-out infinite;
+}
+
+/* Parchment Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f4ede0;
+  background: var(--canvas);
 }
 ::-webkit-scrollbar-thumb {
-  background: #c8bdab;
+  background: #cfc2ac;
   border-radius: 9999px;
-  border: 2px solid #f4ede0;
+  border: 2px solid var(--canvas);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a99c86;
+  background: #b5a489;
 }
 
 /* ══════════════════════════════════════════════════════════════
    PRINT STYLESHEET ISOLATION (OFFICIAL GOV EXPORT / PDF)
    ══════════════════════════════════════════════════════════════ */
 @media print {
-  /* Hide all interactive website chrome & navigation */
   nav,
   footer,
   header,
@@ -230,7 +334,6 @@ input[type="range"]::-moz-range-thumb:active {
     display: none !important;
   }
 
-  /* Reset body and html canvas to pure black-on-white official print */
   html,
   body {
     background: #ffffff !important;
@@ -242,7 +345,6 @@ input[type="range"]::-moz-range-thumb:active {
     margin: 0 !important;
   }
 
-  /* Remove all glow effects, drop shadows, and backdrop filters */
   * {
     box-shadow: none !important;
     text-shadow: none !important;
@@ -250,38 +352,12 @@ input[type="range"]::-moz-range-thumb:active {
     backdrop-filter: none !important;
   }
 
-  /* Isolate modal & print container to full-page flow */
-  .print-modal-overlay {
-    position: static !important;
-    inset: auto !important;
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .print-modal-inner {
-    position: static !important;
-    max-height: none !important;
-    overflow: visible !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  /* Stamp Paper Format Print Layout */
   .print-document-container {
     display: block !important;
     position: static !important;
     width: 100% !important;
     max-width: 100% !important;
-    padding: 24pt !important;
+    padding: 20pt !important;
     margin: 0 auto !important;
     background: #ffffff !important;
     color: #000000 !important;
@@ -290,13 +366,8 @@ input[type="range"]::-moz-range-thumb:active {
     page-break-inside: avoid !important;
   }
 
-  .print-document-container * {
-    color: #000000 !important;
-  }
-
   @page {
     margin: 1.5cm;
     size: A4 portrait;
   }
 }
-
